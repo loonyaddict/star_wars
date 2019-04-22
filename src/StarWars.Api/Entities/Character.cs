@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace StarWars.Api.Entities
 {
@@ -18,7 +16,10 @@ namespace StarWars.Api.Entities
         [MaxLength(50)]
         public string Planet { get; set; }
 
-        public ICollection<Character> Friends { get; set; } =
-            new List<Character>();
+        public ICollection<Episode> Episodes { get; set; }
+            = new List<Episode>();
+
+        public ICollection<Character> Friends { get; set; }
+            = new List<Character>();
     }
 }
