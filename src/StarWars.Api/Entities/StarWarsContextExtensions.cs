@@ -11,15 +11,6 @@ namespace StarWars.Api.Entities
         /// <param name="context"></param>
         public static void StartWithFreshData(this StarWarsContext context)
         {
-            context.Characters.Add(new Character()
-            {
-                Id = new Guid(),
-                Name = "Luke",
-                Planet = "xd"
-            });
-            context.SaveChanges();
-
-
             //Remove all character entries from database.
             context.Characters.RemoveRange(context.Characters);
             context.SaveChanges();
@@ -94,7 +85,6 @@ namespace StarWars.Api.Entities
         {
             foreach (var character in context.Characters)
                 yield return character.ToString();
-                
         }
     }
 }

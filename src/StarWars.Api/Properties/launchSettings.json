@@ -1,23 +1,26 @@
 ﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false, 
     "anonymousAuthentication": true, 
     "iisExpress": {
-      "applicationUrl": "http://localhost:19848",
-      "sslPort": 44382
+      "applicationUrl": "http://localhost:11671",
+      "sslPort": 44376
     }
   },
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
+      "launchUrl": "api/characters",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "StarWars.Api": {
+    "testWebNet": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "api/characters",
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

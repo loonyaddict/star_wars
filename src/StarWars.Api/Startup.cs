@@ -1,36 +1,47 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StarWars.Api.Entities;
+using StarWars.Api.Services;
 
-namespace StarWars.Api
+namespace testWebNet
 {
     public class Startup
     {
-        public static IConfiguration Configuration;
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(setupAction =>
             {
                 setupAction.ReturnHttpNotAcceptable = true;
 
-                setupAction.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
-                setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                //setupAction.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
+                //setupAction.OutputFormatters.Add(new JsonProtocolDependencyInjectionExtensions());
+            }  ).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddDbContext<StarWarsContext>(options =>
+            {
+                options.UseInMemoryDatabase("StarWars-api");
             });
+
+            services.AddScoped<IStarWarsRepository, StarWarsRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
+            StarWarsContext starWarsContext)
         {
             if (env.IsDevelopment())
             {
@@ -39,25 +50,20 @@ namespace StarWars.Api
             else
             {
                 app.UseExceptionHandler(appBuilder =>
-            {
-                appBuilder.Run(async context =>
                 {
-                    context.Response.StatusCode = 500;
-                    await context.Response.WriteAsync(
-                        "Unexcepted fault happend. Try again later.");
+                    appBuilder.Run(async context =>
+                    {
+                        context.Response.StatusCode = 500;
+                        await context.Response.WriteAsync(
+                            "Unexcepted fault happend. Try again later.");
+                    });
                 });
-
-                AutoMapper.Mapper.Initialize(config =>
-                {
-                    //todo add new models and entitities here
-                });
-            });
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            starWarsContext.StartWithFreshData();
+            app.UseHttpsRedirection();
+            app.UseMvc();
         }
     }
 }
