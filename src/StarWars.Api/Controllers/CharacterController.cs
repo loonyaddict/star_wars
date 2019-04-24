@@ -37,7 +37,7 @@ namespace StarWars.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateAuthor([FromBody] CharacterForCreationDto characterToCreate)
+        public IActionResult CreateCharacter([FromBody] CharacterForCreationDto characterToCreate)
         {
             if (characterToCreate == null)
                 return BadRequest();
@@ -58,5 +58,20 @@ namespace StarWars.Api.Controllers
                 characterToReturn);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCharacter(Guid id)
+        {
+            var characterFromRepo = repository.GetCharacter(id);
+
+            if (characterFromRepo == null)
+                return NotFound();
+
+            repository.DeleteCharacter(characterFromRepo);
+
+            if (!repository.Save())
+                throw new Exception($"Deleting character {id} falied on save.");
+
+            return NoContent();
+        }
     }
 }

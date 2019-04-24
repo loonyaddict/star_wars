@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using StarWars.Api.Entities;
 using StarWars.Api.Models;
 using StarWars.Api.Services;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace testWebNet
 {
@@ -72,18 +74,19 @@ namespace testWebNet
                //.ForMember(dest => dest.Age, opt => opt.MapFrom(src =>
                //src.DateOfBirth.GetCurrentAge()));
 
-               config.CreateMap<Character, CharacterDto>();
+               config.CreateMap<Character, CharacterDto>()
+               .ForMember(dest => dest.Friends, opt => opt.MapFrom(src =>
+               new List<string>(src.Episodes.Select(e => e.Name))));
+               
                config.CreateMap<Character, CharacterForCreationDto>();
-               config.CreateMap<CharacterForCreationDto, Character>()
-               .ForMember(dest => dest.Episodes, opt => opt.MapFrom(src =>
-               string.Join(", ", src.Episodes)));
-               
-               
-               //config.CreateMap<Book, BookDto>();
-               //config.CreateMap<BookForCreationDto, Book>();
+               config.CreateMap<CharacterForCreationDto, Character>();
 
-               //config.CreateMap<BookForUpdateDto, Book>();
-               //config.CreateMap<Book, BookForUpdateDto>();
+               config.CreateMap<EpisodeDto, Episode>();
+               config.CreateMap<Episode, EpisodeDto>();
+
+               config.CreateMap<EpisodeForCreationDto, Episode>();
+               
+               
            });
 
             starWarsContext.StartWithFreshData();

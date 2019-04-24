@@ -61,7 +61,7 @@ namespace StarWars.Api.Services
         public void AddEpisodeForCharacter(Guid characterId, Episode episode)
         {
             var character = GetCharacter(characterId);
-            if (character!= null)
+            if (character != null)
             {
                 // if there isn't an id filled out (ie: we're not upserting),
                 // we should generate one
@@ -70,7 +70,21 @@ namespace StarWars.Api.Services
                     episode.Id = Guid.NewGuid();
                 }
             }
+            character.Episodes.Add(episode);
         }
 
+        public IEnumerable<Episode> GetEpisodesForCharacter(Guid characterId) =>
+            context.Episodes
+            .Where(e => e.CharacterId == characterId)
+            .OrderBy(e => e.Name)
+            .ToList();
+
+        public Episode GetEpisodeForCharacter(Guid characterId, Guid episodeId) =>
+            context.Episodes
+            .FirstOrDefault(e => e.CharacterId == characterId);
+
+        public void DeleteEpisode(Episode episode) =>
+             context.Episodes
+             .Remove(episode);
     }
 }

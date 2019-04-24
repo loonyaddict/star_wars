@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace StarWars.Api.Entities
@@ -14,16 +15,9 @@ namespace StarWars.Api.Entities
 
         [MaxLength(50)]
         public string Planet { get; set; }
-        [MaxLength(5000)]
-        public string Episodes { get; set; }
-        [MaxLength(5000)]
-        public string Friends { get; set; }
 
-        //public ICollection<Episode> Episodes { get; set; }
-        //    = new List<Episode>();
+        public ICollection<Episode> Episodes { get; set; }
+            = new List<Episode>();
 
-        ////todo friend character
-        //public ICollection<Character> Friends { get; set; }
-        //    = new List<Character>();
     }
 }

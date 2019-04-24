@@ -1,5 +1,5 @@
-﻿using StarWars.Api.Entities;
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace StarWars.Api.Models
@@ -9,8 +9,8 @@ namespace StarWars.Api.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Planet { get; set; }
-        public string Episodes { get; set; }
-        public string Friends { get; set; }
 
+        public ICollection<string> Friends { get; set; }
+            = new List<string>();
     }
 }

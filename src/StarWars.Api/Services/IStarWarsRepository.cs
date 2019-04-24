@@ -22,11 +22,12 @@ namespace StarWars.Api.Services
 
         void AddEpisodeForCharacter(Guid characterId, Episode episode);
 
-        //IEnumerable<Book> GetBooksForAuthor(Guid authorId);
-        //Book GetBookForAuthor(Guid authorId, Guid bookId);
-        //void AddBookForAuthor(Guid authorId, Book book);
-        //void UpdateBookForAuthor(Book book);
-        //void DeleteBook(Book book);
+        IEnumerable<Episode> GetEpisodesForCharacter(Guid characterId);
+
+        Episode GetEpisodeForCharacter(Guid characterId, Guid episodeId);
+
+        void DeleteEpisode(Episode episode);
+
         bool Save();
     }
 }
