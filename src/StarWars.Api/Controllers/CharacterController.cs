@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StarWars.Api.Entities;
 using StarWars.Api.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using StarWars.Api.Models;
 
 namespace StarWars.Api.Controllers
 {
@@ -19,18 +22,41 @@ namespace StarWars.Api.Controllers
         public IActionResult GetCharacters()
         {
             var charactersFromRepo = repository.Characters;
-            //var characters = Mapper.Map<IEnumerable<AuthorDto>>(authorsFromRepo);
+            var charactersToReturn = Mapper.Map<IEnumerable<CharacterDto>>(charactersFromRepo);
 
-            return Ok(charactersFromRepo);
+            return Ok(charactersToReturn);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetCharacter")]
         public IActionResult GetAuthor(Guid id)
         {
             var characterFromRepo = repository.GetCharacter(id);
+            var authorToReturn = Mapper.Map<CharacterDto>(characterFromRepo);
 
             return Ok(characterFromRepo);
         }
-        
+
+        [HttpPost]
+        public IActionResult CreateAuthor([FromBody] CharacterForCreationDto characterToCreate)
+        {
+            if (characterToCreate == null)
+                return BadRequest();
+            var character = Mapper.Map<Character>(characterToCreate);
+            repository.AddCharacter(character);
+            
+            if (!repository.Save())
+                return StatusCode(500,
+                    "Request could not be handled at the moment. Try again later.");
+
+            var characterToReturn = Mapper.Map<CharacterDto>(character);
+
+            return CreatedAtRoute("GetCharacter",
+                new
+                {
+                    id = character.Id
+                },
+                characterToReturn);
+        }
+
     }
 }

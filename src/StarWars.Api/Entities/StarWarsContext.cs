@@ -15,16 +15,6 @@ namespace StarWars.Api.Entities
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Character>().ToTable("Characters");
-            builder.Entity<Character>().HasKey(p => p.Id);
-            builder.Entity<Character>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
-            builder.Entity<Character>().Property(p => p.Name).IsRequired().HasMaxLength(50);
-            builder.Entity<Character>().Property(p => p.Planet).HasMaxLength(50);
-
-            builder.Entity<Episode>().ToTable("Episodes");
-            builder.Entity<Episode>().Property(p => p.Id);
-            builder.Entity<Episode>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
-            builder.Entity<Episode>().Property(p => p.Name).IsRequired().HasMaxLength(50);
         }
     }
 }

@@ -20,6 +20,8 @@ namespace StarWars.Api.Services
 
         bool CharacterExists(Guid characterId);
 
+        void AddEpisodeForCharacter(Guid characterId, Episode episode);
+
         //IEnumerable<Book> GetBooksForAuthor(Guid authorId);
         //Book GetBookForAuthor(Guid authorId, Guid bookId);
         //void AddBookForAuthor(Guid authorId, Book book);

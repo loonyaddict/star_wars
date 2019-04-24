@@ -18,6 +18,15 @@ namespace StarWars.Api.Services
 
             context.Characters
                 .Add(character);
+            //if (character.Episodes.Any())
+            //{
+            //    foreach (var episode in character.Episodes)
+            //    {
+            //        episode.Character = character;
+            //        episode.CharacterId = character.Id;
+            //        episode.Id = Guid.NewGuid();
+            //    }
+            //}
         }
 
         public bool CharacterExists(Guid characterId) =>
@@ -48,5 +57,20 @@ namespace StarWars.Api.Services
         {
             throw new NotImplementedException();
         }
+
+        public void AddEpisodeForCharacter(Guid characterId, Episode episode)
+        {
+            var character = GetCharacter(characterId);
+            if (character!= null)
+            {
+                // if there isn't an id filled out (ie: we're not upserting),
+                // we should generate one
+                if (character.Id == Guid.Empty)
+                {
+                    episode.Id = Guid.NewGuid();
+                }
+            }
+        }
+
     }
 }

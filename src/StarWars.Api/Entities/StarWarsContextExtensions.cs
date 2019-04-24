@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace StarWars.Api.Entities
 {
@@ -15,35 +17,14 @@ namespace StarWars.Api.Entities
             context.Characters.RemoveRange(context.Characters);
             context.SaveChanges();
 
-            #region Episodes
-
-            var NewHope = new Episode
-            {
-                Id = new Guid("f28b46e9-d9e6-42cf-9aeb-30bccae2175f"),
-                Name = "New hope"
-            };
-
-            var Jedi = new Episode
-            {
-                Id = new Guid("462a5025-cb5c-4eae-9676-d1291c3f676c"),
-                Name = "Return of Jedi"
-            };
-
-            var Empire = new Episode
-            {
-                Id = new Guid("e4422d25-93d4-4dec-9a11-f4172ba4c0c4"),
-                Name = "Empire strikes back"
-            };
-
-            #endregion Episodes
-
             #region Characters
 
             var Luke = new Character
             {
                 Id = new Guid("a4e36fcb-a44a-478b-af48-8e44a4cceb6f"),
                 Name = "Luke Skywalker",
-                //Episodes = new List<Episode>() { NewHope, Empire, Jedi }
+                Episodes = "NewHope, Jedi"
+
             };
 
             var Leia = new Character
@@ -65,7 +46,9 @@ namespace StarWars.Api.Entities
             {
                 Id = new Guid("4243ab01-80c0-46ec-9464-df8fb25ebdd5"),
                 Name = "Darth Vader",
-                //Episodes = new List<Episode>() { NewHope }
+                Planet = "Aldebaran",
+                Episodes = "NewHope, Jedi",
+                Friends = "HanSolo"
             };
 
             #endregion Characters
@@ -74,9 +57,9 @@ namespace StarWars.Api.Entities
             //Leia.Friends.AddMany(Luke, HanSolo);
             //HanSolo.Friends.AddMany(Luke, Leia);
 
-            context.Episodes.AddRange(NewHope, Jedi, Empire);
             context.Characters.AddRange(Luke, Leia, HanSolo, Vader);
-
+            //Debug.WriteLine($"{Luke.Episodes.Count}");
+            //Debug.WriteLine($"{context.Characters.First().Episodes.Count}");
             context.SaveChanges();
         }
 
