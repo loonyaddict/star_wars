@@ -28,6 +28,8 @@ namespace StarWars.Api.Services
 
         void DeleteEpisode(Episode episode);
 
+        void UpdateEpisodeForCharacter(Guid characterId, Episode episode);
+
         bool Save();
     }
 }

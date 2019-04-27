@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace StarWars.Api.Models
 {
-    public class CharacterForCreationDto
+    public class CharacterForCreationDto : CharacterModelDto
     {
-        public string Name { get; set; }
-        public string Planet { get; set; }
+
     }
 }

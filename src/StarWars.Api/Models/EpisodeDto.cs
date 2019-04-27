@@ -7,6 +7,7 @@ namespace StarWars.Api.Models
         public Guid Id { get; set; }
 
         public string Name { get; set; }
+
         public Guid CharacterId { get; set; }
     }
 }

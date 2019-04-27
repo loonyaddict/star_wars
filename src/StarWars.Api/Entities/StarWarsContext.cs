@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace StarWars.Api.Entities
 {
@@ -21,7 +20,6 @@ namespace StarWars.Api.Entities
                 .WithOne(e => e.Character)
                 .HasForeignKey(e => e.CharacterId)
                 .OnDelete(DeleteBehavior.Cascade);
-
         }
     }
 }

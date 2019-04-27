@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StarWars.Api.Entities;
 using StarWars.Api.Models;
 using StarWars.Api.Services;
@@ -11,10 +13,20 @@ namespace StarWars.Api.Controllers
     [Route("api/characters/{characterId}/episodes")]
     public class EpisodesController : Controller
     {
-        private readonly IStarWarsRepository repository;
+        private void Save(string exceptionMessage = "")
+        {
+            if (!repository.Save())
+                throw new Exception(exceptionMessage);
+        }
 
-        public EpisodesController(IStarWarsRepository repository) =>
+        private readonly IStarWarsRepository repository;
+        private readonly ILogger<CharacterController> logger;
+
+        public EpisodesController(IStarWarsRepository repository, ILogger<CharacterController> logger)
+        {
             this.repository = repository;
+            this.logger = logger;
+        }
 
         [HttpGet]
         public IActionResult GetEpisodesForCharacter(Guid characterId)
@@ -48,21 +60,19 @@ namespace StarWars.Api.Controllers
             if (episode == null)
                 return BadRequest();
 
+            if (!repository.CharacterExists(characterId))
+                return NotFound();
+
             var episodeEntity = Mapper.Map<Episode>(episode);
 
             repository.AddEpisodeForCharacter(characterId, episodeEntity);
 
-            if (!repository.Save())
-                throw new Exception($"Adding Episode for Character {characterId} falied on save.");
+            Save(exceptionMessage: $"Adding Episode for Character {characterId} falied on save.");
 
             var episodeToReturn = Mapper.Map<EpisodeDto>(episodeEntity);
 
             return CreatedAtRoute("GetEpisodeForCharacter",
-                new
-                {
-                    characterId,
-                    episodeId = episodeToReturn.Id
-                },
+                new { characterId, episodeId = episodeToReturn.Id },
                 episodeToReturn);
         }
 
@@ -79,10 +89,105 @@ namespace StarWars.Api.Controllers
 
             repository.DeleteEpisode(episodeFromRepo);
 
-            if (!repository.Save())
-                throw new Exception($"Deleting Episode {episodeId} for author {characterId} falied on save.");
+            Save(exceptionMessage: $"Deleting Episode {episodeId} for character {characterId} falied on save.");
+
+            logger.LogInformation(100, $"Episode {episodeId} for character {characterId} was deleted.");
 
             return NoContent();
+        }
+
+        [HttpPut("{episodeId}")]
+        public IActionResult UpdateEpisodeForCharacter(
+            Guid characterId, Guid episodeId,
+            [FromBody] EpisodeForUpdateDto episode)
+        {
+            if (episode == null)
+                return BadRequest();
+
+            if (!repository.CharacterExists(characterId))
+                return NotFound();
+
+            var episodeFromRepo = repository.GetEpisodeForCharacter(characterId, episodeId);
+
+            if (episodeFromRepo == null)
+                return UpsertEpisodeFromPut(characterId, episodeId, episode);
+
+            Mapper.Map(episode, episodeFromRepo);
+            repository.UpdateEpisodeForCharacter(characterId, episodeFromRepo);
+
+            Save(exceptionMessage: $"PUT episode {episodeId} for character {characterId} falied on save.");
+
+            return NoContent();
+        }
+
+        private IActionResult UpsertEpisodeFromPut(Guid characterId, Guid episodeId,
+            EpisodeForUpdateDto episode)
+        {
+            var episodeToAdd = Mapper.Map<Episode>(episode);
+            episodeToAdd.Id = episodeId;
+
+            repository.AddEpisodeForCharacter(characterId, episodeToAdd);
+
+            Save(exceptionMessage: $"Upserting episode {episodeId} for character {characterId} falied on save.");
+
+            var episodeToReturn = Mapper.Map<EpisodeDto>(episodeToAdd);
+
+            return CreatedAtRoute("GetEpisodeForCharacter",
+                new { characterId, episodeId = episodeToReturn.Id },
+                episodeToReturn);
+        }
+
+        [HttpPatch("{episodeId}")]
+        public IActionResult PartiallyUpdateEpisodeForCharacter(
+            Guid characterId, Guid episodeId,
+            [FromBody] JsonPatchDocument<EpisodeForUpdateDto> patchDoc)
+        {
+            if (patchDoc == null)
+                return BadRequest();
+
+            if (!repository.CharacterExists(characterId))
+                return NotFound();
+
+            var episodeFromRepo = repository.GetEpisodeForCharacter(characterId, episodeId);
+
+            if (episodeFromRepo == null)
+                return UpsertEpisodeFromPatch(characterId, episodeId, patchDoc);
+
+            var episodeToPatch = Mapper.Map<EpisodeForUpdateDto>(episodeFromRepo);
+
+            patchDoc.ApplyTo(episodeToPatch, ModelState);
+            TryValidateModel(episodeToPatch);
+            if (!ModelState.IsValid)
+                return new UnprocessableEntityObjectResult(ModelState);
+
+            Mapper.Map(episodeToPatch, episodeFromRepo);
+
+            Save(exceptionMessage: $"PATCH episode {episodeId} for character {characterId} falied on save.");
+
+            return NoContent();
+        }
+
+        private IActionResult UpsertEpisodeFromPatch(Guid characterId, Guid episodeId,
+            JsonPatchDocument<EpisodeForUpdateDto> patchDoc)
+        {
+            var episodeDto = new EpisodeForUpdateDto();
+
+            patchDoc.ApplyTo(episodeDto, ModelState);
+            TryValidateModel(episodeDto);
+            if (!ModelState.IsValid)
+                return new UnprocessableEntityObjectResult(ModelState);
+
+            var episodeToAdd = Mapper.Map<Episode>(episodeDto);
+
+            repository.AddEpisodeForCharacter(characterId, episodeToAdd);
+
+            Save(exceptionMessage: $"Upserting episode {episodeId} for character {characterId} falied on save.");
+
+            var episodeToReturn = Mapper.Map<EpisodeDto>(episodeToAdd);
+
+            return CreatedAtRoute("GetEpisodeForCharacter",
+            new { characterId, episodeId = episodeToReturn.Id },
+            episodeToReturn);
         }
     }
 }

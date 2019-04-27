@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 using StarWars.Api.Entities;
 using StarWars.Api.Models;
 using StarWars.Api.Services;
@@ -29,24 +31,25 @@ namespace testWebNet
             {
                 setupAction.ReturnHttpNotAcceptable = true;
 
-                //setupAction.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
-                //setupAction.OutputFormatters.Add(new JsonProtocolDependencyInjectionExtensions());
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+              
 
             services.AddDbContext<StarWarsContext>(options =>
             {
                 options.UseInMemoryDatabase("StarWars-api");
             });
 
-            
 
             services.AddScoped<IStarWarsRepository, StarWarsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
-            StarWarsContext starWarsContext)
+            ILoggerFactory loggerFactory, StarWarsContext starWarsContext)
         {
+            loggerFactory.AddNLog();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -74,19 +77,21 @@ namespace testWebNet
                //.ForMember(dest => dest.Age, opt => opt.MapFrom(src =>
                //src.DateOfBirth.GetCurrentAge()));
 
-               config.CreateMap<Character, CharacterDto>()
-               .ForMember(dest => dest.Friends, opt => opt.MapFrom(src =>
-               new List<string>(src.Episodes.Select(e => e.Name))));
-               
+               config.CreateMap<Character, CharacterDto>();
+               //.ForMember(dest => dest.Friends, opt => opt.MapFrom(src =>
+               //new List<string>(src.Episodes.Select(e => e.Name))));
+
                config.CreateMap<Character, CharacterForCreationDto>();
                config.CreateMap<CharacterForCreationDto, Character>();
+               config.CreateMap<CharacterForUpdateDto, Character>();
+               config.CreateMap<CharacterForUpdateDto, CharacterDto>();
+               config.CreateMap<Character, CharacterForUpdateDto>();
 
                config.CreateMap<EpisodeDto, Episode>();
                config.CreateMap<Episode, EpisodeDto>();
 
                config.CreateMap<EpisodeForCreationDto, Episode>();
-               
-               
+               config.CreateMap<EpisodeForUpdateDto, Episode>();
            });
 
             starWarsContext.StartWithFreshData();

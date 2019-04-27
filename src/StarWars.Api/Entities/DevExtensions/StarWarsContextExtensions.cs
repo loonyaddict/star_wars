@@ -69,8 +69,6 @@ namespace StarWars.Api.Entities
             #endregion Characters
 
             context.Characters.AddRange(Luke, Leia, HanSolo, Vader);
-            //Debug.WriteLine($"{Luke.Episodes.Count}");
-            //Debug.WriteLine($"{context.Characters.First().Episodes.Count}");
             context.SaveChanges();
         }
 

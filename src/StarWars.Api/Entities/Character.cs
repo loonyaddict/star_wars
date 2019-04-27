@@ -7,6 +7,7 @@ namespace StarWars.Api.Entities
     public class Character
     {
         [Key]
+        [Required]
         public Guid Id { get; set; }
 
         [Required]
