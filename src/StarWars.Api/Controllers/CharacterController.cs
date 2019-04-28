@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
+using StarWars.Api.Controllers.ControllersHelper.CharacterHelper;
 using StarWars.Api.Entities;
+using StarWars.Api.Helpers.Pagination;
 using StarWars.Api.Models;
 using StarWars.Api.Services;
 using System;
@@ -12,30 +13,86 @@ using System.Collections.Generic;
 namespace StarWars.Api.Controllers
 {
     [Route("api/characters")]
-    public class CharacterController : Controller
+    public class CharacterController : StarWarsController
     {
-        private readonly IStarWarsRepository repository;
         private readonly ILogger<CharacterController> logger;
+        private readonly IUrlHelper urlHelper;
 
-        private void Save(string exceptionMessage = "")
-        {
-            if (!repository.Save())
-                throw new Exception(exceptionMessage);
-        }
+        public CharacterController(IStarWarsRepository repository,
+            ILogger<CharacterController> logger,
+            IUrlHelper urlHelper)
 
-        public CharacterController(IStarWarsRepository repository, ILogger<CharacterController> logger)
+            : base(repository)
         {
-            this.repository = repository;
             this.logger = logger;
+            this.urlHelper = urlHelper;
         }
 
-        [HttpGet]
-        public IActionResult GetCharacters()
+        [HttpGet(Name = "GetCharacters")]
+        public IActionResult GetCharacters(CharacterResourceParameters parameters)
+
         {
-            var charactersFromRepo = repository.Characters;
+            var charactersFromRepo = repository.GetCharacters(parameters);
+
+            var previousPageLink = charactersFromRepo.HasPrevious
+            ? CreateCharactersResourcesUri(parameters, ResourceUriType.PreviousPage)
+            : null;
+
+            var nextPageLink = charactersFromRepo.HasNext
+            ? CreateCharactersResourcesUri(parameters, ResourceUriType.NextPage)
+            : null;
+
+            var paginationMetadata = new
+            {
+                totalCount = charactersFromRepo.TotalCount,
+                pageSize = charactersFromRepo.PageSize,
+                currentPage = charactersFromRepo.CurrentPage,
+                totalPages = charactersFromRepo.TotalPages,
+                previousPageLink,
+                nextPageLink
+            };
+
+            Response.Headers.Add("X-Pagination",
+                Newtonsoft.Json.JsonConvert.SerializeObject(paginationMetadata));
+
             var charactersToReturn = Mapper.Map<IEnumerable<CharacterDto>>(charactersFromRepo);
 
             return Ok(charactersToReturn);
+        }
+
+        private string CreateCharactersResourcesUri(
+            CharacterResourceParameters parameters,
+            ResourceUriType type)
+        {
+            switch (type)
+            {
+                case ResourceUriType.PreviousPage:
+                    return Url.Link("GetCharacters", new
+                    {
+                        planet = parameters.Planet,
+                        searchQuery = parameters.SearchQuery,
+                        pageNumber = parameters.PageNumber - 1,
+                        pageSize = parameters.PageSize
+                    });
+
+                case ResourceUriType.NextPage:
+                    return Url.Link("GetCharacters", new
+                    {
+                        planet = parameters.Planet,
+                        searchQuery = parameters.SearchQuery,
+                        pageNumber = parameters.PageNumber + 1,
+                        pageSize = parameters.PageSize
+                    });
+
+                default:
+                    return Url.Link("GetCharacters", new
+                    {
+                        planet = parameters.Planet,
+                        searchQuery = parameters.SearchQuery,
+                        pageNumber = parameters.PageNumber,
+                        pageSize = parameters.PageSize
+                    });
+            }
         }
 
         [HttpGet("{id}", Name = "GetCharacter")]
@@ -51,9 +108,7 @@ namespace StarWars.Api.Controllers
         {
             if (characterToCreate == null)
                 return BadRequest();
-
-            CheckModelForSameNameAndPlanet(ModelState,
-                characterToCreate.Name, characterToCreate.Planet);
+            ModelState.CheckModelForSameNameAndPlanet(characterToCreate);
             if (!ModelState.IsValid)
                 return new UnprocessableEntityObjectResult(ModelState);
 
@@ -101,8 +156,7 @@ namespace StarWars.Api.Controllers
 
             Mapper.Map(character, characterFromRepo);
 
-            CheckModelForSameNameAndPlanet(ModelState,
-                characterFromRepo.Name, characterFromRepo.Planet);
+            ModelState.CheckModelForSameNameAndPlanet(characterFromRepo);
             if (!ModelState.IsValid)
                 return new UnprocessableEntityObjectResult(ModelState);
 
@@ -118,8 +172,7 @@ namespace StarWars.Api.Controllers
             var characterToAdd = Mapper.Map<Character>(character);
             characterToAdd.Id = id;
 
-            CheckModelForSameNameAndPlanet(ModelState,
-                characterToAdd.Name, characterToAdd.Planet);
+            ModelState.CheckModelForSameNameAndPlanet(characterToAdd);
             if (!ModelState.IsValid)
                 return new UnprocessableEntityObjectResult(ModelState);
 
@@ -166,9 +219,7 @@ namespace StarWars.Api.Controllers
 
             patchDoc.ApplyTo(characterDto, ModelState);
 
-            CheckModelForSameNameAndPlanet(ModelState,
-                characterDto.Name, characterDto.Planet);
-
+            ModelState.CheckModelForSameNameAndPlanet(characterDto);
             TryValidateModel(characterDto);
             if (!ModelState.IsValid)
                 return new UnprocessableEntityObjectResult(ModelState);
@@ -187,16 +238,5 @@ namespace StarWars.Api.Controllers
                 new { id = characterToReturn.Id },
                 characterToReturn);
         }
-
-        #region Validation
-
-        private void CheckModelForSameNameAndPlanet(ModelStateDictionary modelState,
-            string name, string planet)
-        {
-            if (name == planet)
-                modelState.AddModelError(name, "Name is same as planet.");
-        }
-
-        #endregion Validation
     }
 }

@@ -11,22 +11,13 @@ using System.Collections.Generic;
 namespace StarWars.Api.Controllers
 {
     [Route("api/characters/{characterId}/episodes")]
-    public class EpisodesController : Controller
+    public class EpisodesController : StarWarsController
     {
-        private void Save(string exceptionMessage = "")
-        {
-            if (!repository.Save())
-                throw new Exception(exceptionMessage);
-        }
-
-        private readonly IStarWarsRepository repository;
         private readonly ILogger<CharacterController> logger;
 
         public EpisodesController(IStarWarsRepository repository, ILogger<CharacterController> logger)
-        {
-            this.repository = repository;
+            : base(repository) =>
             this.logger = logger;
-        }
 
         [HttpGet]
         public IActionResult GetEpisodesForCharacter(Guid characterId)
@@ -120,7 +111,8 @@ namespace StarWars.Api.Controllers
             return NoContent();
         }
 
-        private IActionResult UpsertEpisodeFromPut(Guid characterId, Guid episodeId,
+        private IActionResult UpsertEpisodeFromPut(
+            Guid characterId, Guid episodeId,
             EpisodeForUpdateDto episode)
         {
             var episodeToAdd = Mapper.Map<Episode>(episode);
@@ -167,7 +159,8 @@ namespace StarWars.Api.Controllers
             return NoContent();
         }
 
-        private IActionResult UpsertEpisodeFromPatch(Guid characterId, Guid episodeId,
+        private IActionResult UpsertEpisodeFromPatch(
+            Guid characterId, Guid episodeId,
             JsonPatchDocument<EpisodeForUpdateDto> patchDoc)
         {
             var episodeDto = new EpisodeForUpdateDto();

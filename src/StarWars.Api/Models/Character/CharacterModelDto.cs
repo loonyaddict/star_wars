@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using StarWars.Api.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StarWars.Api.Models
 {
-    public abstract class CharacterModelDto
+    public abstract class CharacterModelDto : ICharacter
     {
 
         [Required(ErrorMessage = "Name cannot be empty")]

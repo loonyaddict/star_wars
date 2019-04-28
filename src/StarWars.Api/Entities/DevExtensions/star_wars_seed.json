@@ -1,0 +1,250 @@
+[
+  {
+    "Id": "b1ffc6ab-3c09-4fc0-a21d-6c7445753219",
+    "Name": "Mon Mothma",
+    "Planet": "Alderaan",
+    "Episodes": []
+  },
+  {
+    "Id": "2de7652d-b826-4dd3-ba76-57feb2154fc6",
+    "Name": "Wicket",
+    "Planet": "Ryloth",
+    "Episodes": [
+      {
+        "Id": "199a49bc-6e0c-4906-8ab9-f321ffc8e764",
+        "Name": "Return of the Jedi",
+        "Character": null,
+        "CharacterId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "Id": "ea024f46-5dd8-44d6-9444-110bcb26691f",
+    "Name": "Admiral Ackbar",
+    "Planet": "Takodana",
+    "Episodes": [
+      {
+        "Id": "ebbd1f7d-269b-4312-973a-ecbe2eebc223",
+        "Name": "Attack of the Clones",
+        "Character": null,
+        "CharacterId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "Id": "cec4ca71-d660-400f-ac9e-bf6c71ebf44d",
+    "Name": "Qui-Gon Jinn",
+    "Planet": "Anoat",
+    "Episodes": [
+      {
+        "Id": "47e4076d-0b76-4e86-aae0-6722221f9500",
+        "Name": "The Empire Strikes Back",
+        "Character": null,
+        "CharacterId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "Id": "e8f4ab75-0f83-46a4-bbd5-89335e7b1aba",
+    "Name": "Rey",
+    "Planet": "Solo",
+    "Episodes": []
+  },
+  {
+    "Id": "557e7ac2-28e7-466e-8d34-10b7d72ea66d",
+    "Name": "Poe Dameron",
+    "Planet": "Takodana",
+    "Episodes": [
+      {
+        "Id": "ca3979cb-aa6a-457a-9b66-170335925959",
+        "Name": "The Force Awakens",
+        "Character": null,
+        "CharacterId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "Id": "b5fec159-4240-4d9a-8629-4f6679128f8b",
+    "Name": "Finn",
+    "Planet": "Tales",
+    "Episodes": [
+      {
+        "Id": "013225fa-9cd2-40ac-b439-6f62b961b43e",
+        "Name": "Return of the Jedi",
+        "Character": null,
+        "CharacterId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "Id": "6baf0e97-96a3-4d56-8896-d12769005f7f",
+    "Name": "Cassian Andor",
+    "Planet": "Ando",
+    "Episodes": [
+      {
+        "Id": "1d26bfac-aa69-406b-abfd-6d1990929632",
+        "Name": "A New Hope",
+        "Character": null,
+        "CharacterId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "Id": "45166207-2e4f-4402-b790-e1c6e6596a31",
+    "Name": "Orson Krennic",
+    "Planet": "Starkiller",
+    "Episodes": [
+      {
+        "Id": "34e7460e-49e2-4848-a955-0b39aefa97fd",
+        "Name": "Attack of the Clones",
+        "Character": null,
+        "CharacterId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "Id": "f8f0a2e3-ea09-4b60-bda3-5d16a1d41381",
+    "Name": "DJ",
+    "Planet": "Starkiller",
+    "Episodes": [
+      {
+        "Id": "f0b479b2-d8cf-4fac-b4fc-33b36065adb3",
+        "Name": "Return of the Jedi",
+        "Character": null,
+        "CharacterId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "Id": "1a3572f8-88c4-458d-9d2c-07672d72ab4e",
+    "Name": "Boba Fett",
+    "Planet": "Takodana",
+    "Episodes": [
+      {
+        "Id": "a3742395-de98-4d81-b1f8-c53b3d257090",
+        "Name": "The Force Awakens",
+        "Character": null,
+        "CharacterId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "Id": "1b4d8cda-2da3-403c-a4c0-c835b5861d29",
+    "Name": "Darth Maul",
+    "Planet": "Ryloth",
+    "Episodes": [
+      {
+        "Id": "4f11a283-cc51-4499-84ae-ef3da7899742",
+        "Name": "The Force Awakens",
+        "Character": null,
+        "CharacterId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "Id": "9e38d8c4-8c61-40dc-a0e8-d0a910fcf4ed",
+    "Name": "C-3PO",
+    "Planet": "Abafar",
+    "Episodes": []
+  },
+  {
+    "Id": "0021ffa5-bd77-4df5-b61d-738993b92ab3",
+    "Name": "BB-8",
+    "Planet": "Savareen",
+    "Episodes": []
+  },
+  {
+    "Id": "b6ee8a38-ae3b-4a1c-b1de-484844bb3bf0",
+    "Name": "Chewbacca",
+    "Planet": "Takodana",
+    "Episodes": []
+  },
+  {
+    "Id": "9d5e38d7-900d-4b7d-a9b9-20c0f5059d61",
+    "Name": "Lando Calrissian",
+    "Planet": "Ryloth",
+    "Episodes": [
+      {
+        "Id": "93dc2261-8882-4193-bae9-a628f6b1728b",
+        "Name": "The Empire Strikes Back",
+        "Character": null,
+        "CharacterId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "Id": "65db6082-f254-43f3-bd9f-b2e58bc97b37",
+    "Name": "Obi-Wan Kenobi",
+    "Planet": "Sullust",
+    "Episodes": []
+  },
+  {
+    "Id": "82d64340-ed52-4bcb-937e-47f331658b03",
+    "Name": "R2-D2",
+    "Planet": "Sullust",
+    "Episodes": []
+  },
+  {
+    "Id": "43479314-d524-482c-8895-d05e4b207057",
+    "Name": "Emperor Palpatine",
+    "Planet": "Shili",
+    "Episodes": [
+      {
+        "Id": "dbd21e7d-d44b-42ec-900a-8916cbe34cb0",
+        "Name": "The Empire Strikes Back",
+        "Character": null,
+        "CharacterId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "Id": "f3b2fe20-c028-44fa-9829-091db261f61e",
+    "Name": "Yoda",
+    "Planet": "Abafar",
+    "Episodes": []
+  },
+  {
+    "Id": "bf5489de-75bd-40ea-82b1-33c0b9459182",
+    "Name": "Princess Leia",
+    "Planet": "Ando",
+    "Episodes": [
+      {
+        "Id": "0a5c967d-3604-4a12-bfa6-11bde7aa95f3",
+        "Name": "The Phantom Menace",
+        "Character": null,
+        "CharacterId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "Id": "bde5b344-a164-4a8f-a88e-59be69b2fb6a",
+    "Name": "Luke Skywalker",
+    "Planet": "Ahch",
+    "Episodes": []
+  },
+  {
+    "Id": "3810eba8-b61b-4b6b-8359-8b5480421042",
+    "Name": "Kylo Ren",
+    "Planet": "Subterrel",
+    "Episodes": []
+  },
+  {
+    "Id": "3fec732e-83bf-4018-8879-272c2e34a883",
+    "Name": "Han Solo",
+    "Planet": "Solo",
+    "Episodes": []
+  },
+  {
+    "Id": "348d76c9-7b83-4e02-8742-f9205f7bd548",
+    "Name": "Darth Vader",
+    "Planet": "Alderaan",
+    "Episodes": [
+      {
+        "Id": "e751e291-34bf-4fb4-811b-24e1b81fb1e8",
+        "Name": "Return of the Jedi",
+        "Character": null,
+        "CharacterId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  }
+]

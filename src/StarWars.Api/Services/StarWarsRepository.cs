@@ -1,4 +1,7 @@
 ﻿using StarWars.Api.Entities;
+using StarWars.Api.Helpers;
+using StarWars.Api.Helpers.Pagination;
+using StarWars.API.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,8 +47,35 @@ namespace StarWars.Api.Services
             .Where(c => characterIds.Contains(c.Id))
             .OrderBy(character => character.Name);
 
-        public IEnumerable<Character> Characters =>
-            context.Characters.OrderBy(c => c.Name);
+        public PagedList<Character> GetCharacters(CharacterResourceParameters parameters)
+        {
+            var collectionBeforePaging =
+                context.Characters
+                .OrderBy(c => c.Name)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(parameters.Planet))
+            {
+                var planetQuery = StringHelpers.TrimToLowerInvariant(parameters.Planet);
+
+                collectionBeforePaging = collectionBeforePaging
+                    .Where(c => StringHelpers.TrimToLowerInvariant(c.Planet) == planetQuery);
+            }
+
+            if (!string.IsNullOrEmpty(parameters.SearchQuery))
+            {
+                var searchQuery = StringHelpers.TrimToLowerInvariant(parameters.SearchQuery);
+
+                collectionBeforePaging = collectionBeforePaging
+                    .Where(c =>
+                    StringHelpers.TrimToLowerInvariant(c.Name).Contains(searchQuery)
+                    || StringHelpers.TrimToLowerInvariant(c.Planet).Contains(searchQuery));
+            }
+
+            return PagedList<Character>.Create(collectionBeforePaging,
+                parameters.PageNumber,
+                parameters.PageSize);
+        }
 
         public bool Save()
         {

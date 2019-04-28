@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace StarWars.Api.Entities.DevExtensions
 {
@@ -18,8 +21,6 @@ namespace StarWars.Api.Entities.DevExtensions
         private readonly List<string> planets = new List<string>()
         {
             "Abafar", "Ahch", "Akiva", "Alderaan", "Ando", "Anoat",
-            "Solo", "Coruscant", "Heir", "Crait", "D", "Dagobah",
-            "Dathomir", "Devaron", "Tales", "Eadu", "Ruusan", "Toydaria",
             "Ryloth", "Tales", "Saleucami", "Savareen", "Solo", "Scarif",
             "Shili", "Starkiller", "Subterrel", "Sullust", "Takodana", "Tatooine",
         };
@@ -36,20 +37,64 @@ namespace StarWars.Api.Entities.DevExtensions
             "The Last Jedi",
         };
 
-        public IEnumerable<Character> GetNewSeed(int numberOfCharacters,
-            (int min, int max) episodes,
-            (int min, int max) friends)
-        {
-            var unusedNames = new List<string>(names);
+        private string RandomPlanet() => planets[random.Next(planets.Count - 1)];
 
-            throw new NotImplementedException();
-            while (numberOfCharacters > 0)
+        private IEnumerable<Episode> RandomEpisodes(int number)
+        {
+            number = number < episodes.Count
+                ? number
+                : episodes.Count;
+            var unusedEpisodes = new List<string>(episodes);
+
+            while (number > 0)
             {
-                var character = new Character
+                int next = random.Next(unusedEpisodes.Count - 1);
+                var episodeName = unusedEpisodes[next];
+                unusedEpisodes.RemoveAt(next);
+                number--;
+
+                yield return new Episode
                 {
-                    Id = new Guid(),
+                    Id = Guid.NewGuid(),
+                    Name = episodeName
                 };
             }
         }
+
+        public IEnumerable<Character> GetNewSeed((int min, int max) episodes)
+        //(int min, int max) friends)
+        {
+            IList<Character> charactersList = new List<Character>();
+            foreach (var characterName in names)
+            {
+                var character = new Character
+                {
+                    Id = Guid.NewGuid(),
+                    Name = characterName,
+                    Planet = RandomPlanet(),
+                    Episodes = RandomEpisodes(random.Next(episodes.min, episodes.max)).ToList()
+                };
+                charactersList.Add(character);
+            }
+            return charactersList;
+        }
+
+        #region ExampleUse
+
+        public void ExampleUse()
+        {
+            SeedGenerator generator = new SeedGenerator();
+            var charactersToAdd = generator.GetNewSeed(episodes: (0, 2));
+
+            var charactersAsJson = JsonConvert.SerializeObject(charactersToAdd.ToList());
+            var directory = @"c:temp\resource\character_seed\";
+
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+
+            File.WriteAllText($@"{directory}example_seed.json", charactersAsJson);
+        }
+
+        #endregion ExampleUse
     }
 }

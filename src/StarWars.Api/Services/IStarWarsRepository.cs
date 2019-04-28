@@ -1,4 +1,6 @@
 ﻿using StarWars.Api.Entities;
+using StarWars.Api.Helpers.Pagination;
+using StarWars.API.Helpers;
 using System;
 using System.Collections.Generic;
 
@@ -6,7 +8,7 @@ namespace StarWars.Api.Services
 {
     public interface IStarWarsRepository
     {
-        IEnumerable<Character> Characters { get; }
+        PagedList<Character> GetCharacters(CharacterResourceParameters parameters);
 
         Character GetCharacter(Guid characterId);
 

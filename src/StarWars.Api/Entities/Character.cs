@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace StarWars.Api.Entities
 {
-    public class Character
+
+    public class Character : ICharacter
     {
         [Key]
         [Required]
@@ -19,6 +20,5 @@ namespace StarWars.Api.Entities
 
         public ICollection<Episode> Episodes { get; set; }
             = new List<Episode>();
-
     }
 }

@@ -2,6 +2,7 @@
 using Library.API.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using StarWars.Api.Controllers.ControllersHelper.CharacterHelper;
 using StarWars.Api.Entities;
 using StarWars.Api.Models;
 using StarWars.Api.Services;
@@ -12,22 +13,13 @@ using System.Linq;
 namespace StarWars.Api.Controllers
 {
     [Route("api/charactercollections")]
-    public class CharacterCollectionsController : Controller
+    public class CharacterCollectionsController : StarWarsController
     {
-        private readonly IStarWarsRepository repository;
         private readonly ILogger<CharacterCollectionsController> logger;
 
-        private void Save(string exceptionMessage = "")
-        {
-            if (!repository.Save())
-                throw new Exception(exceptionMessage);
-        }
-
         public CharacterCollectionsController(IStarWarsRepository repository, ILogger<CharacterCollectionsController> logger)
-        {
-            this.repository = repository;
+            : base(repository) =>
             this.logger = logger;
-        }
 
         [HttpGet("({ids})", Name = "GetCharacterCollection")]
         public IActionResult GetAuthorCollection(
@@ -56,6 +48,13 @@ namespace StarWars.Api.Controllers
             var characterEntities = Mapper.Map<IEnumerable<Character>>(charactersForCreations);
 
             foreach (var character in characterEntities)
+            {
+                ModelState.CheckModelForSameNameAndPlanet(character);
+                if (!ModelState.IsValid)
+                    return new UnprocessableEntityObjectResult(ModelState);
+            }
+
+            foreach (var character in characterEntities)
                 repository.AddCharacter(character);
 
             Save(exceptionMessage: "Creating author collection falied on save.");
@@ -68,6 +67,5 @@ namespace StarWars.Api.Controllers
                 new { ids = idsAsString },
                 authorCollectionToReturn);
         }
-
     }
 }
