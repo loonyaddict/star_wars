@@ -30,8 +30,4 @@
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.8.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\ControllersHelpers\" />
-  </ItemGroup>
-
 </Project>
