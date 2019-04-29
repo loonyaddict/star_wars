@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StarWars.Api</name>
+    </assembly>
+    <members>
+        <member name="T:StarWars.Api.Controllers.CharacterController">
+            <summary>
+            Support various operations on characters in repository.
+            </summary>
+        </member>
+        <member name="M:StarWars.Api.Controllers.ControllersHelper.CharacterHelper.CharacterControllerHelper.CheckModelForSameNameAndPlanet(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary,StarWars.Api.Entities.ICharacter)">
+            <summary>
+            Custom rule: Name should not be same as plent. Needs to be called on create and update operations.
+            </summary>
+            <param name="modelState"></param>
+            <param name="character"></param>
+        </member>
+        <member name="T:StarWars.Api.Controllers.StarWarsController">
+            <summary>
+            Base class for StarWars.Api Controllers.
+            </summary>
+        </member>
+        <member name="M:StarWars.Api.Controllers.StarWarsController.Save(System.String)">
+            <summary>
+            Save repository. Throws merror with exceptionMessage on fail.
+            </summary>
+            <param name="exceptionMessage"></param>
+        </member>
+        <member name="M:StarWars.Api.Entities.StarWarsContextExtensions.StartWithFreshData(StarWars.Api.Entities.StarWarsContext)">
+            <summary>
+            This method clears database and puts some hard coded characters.
+            </summary>
+            <param name="context"></param>
+        </member>
+    </members>
+</doc>

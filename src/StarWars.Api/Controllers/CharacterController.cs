@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Library.API.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -7,31 +8,48 @@ using StarWars.Api.Entities;
 using StarWars.Api.Helpers.Pagination;
 using StarWars.Api.Models;
 using StarWars.Api.Services;
+using StarWars.API.Services;
 using System;
 using System.Collections.Generic;
 
 namespace StarWars.Api.Controllers
 {
+    /// <summary>
+    /// Support various operations on characters in repository.
+    /// </summary>
     [Route("api/characters")]
     public class CharacterController : StarWarsController
     {
         private readonly ILogger<CharacterController> logger;
         private readonly IUrlHelper urlHelper;
+        private readonly IPropertyMappingService propertyMappingService;
+        private readonly ITypeHelperService typeHelperService;
 
         public CharacterController(IStarWarsRepository repository,
             ILogger<CharacterController> logger,
-            IUrlHelper urlHelper)
+            IUrlHelper urlHelper,
+            IPropertyMappingService propertyMappingService,
+            ITypeHelperService typeHelperService)
 
             : base(repository)
         {
             this.logger = logger;
             this.urlHelper = urlHelper;
+            this.propertyMappingService = propertyMappingService;
+            this.typeHelperService = typeHelperService;
         }
 
         [HttpGet(Name = "GetCharacters")]
         public IActionResult GetCharacters(CharacterResourceParameters parameters)
 
         {
+            if (!propertyMappingService.ValidMappingExistsFor<CharacterDto, Character>
+               (parameters.OrderBy))
+                return BadRequest();
+
+            if (!typeHelperService.TypeHasProperties<CharacterDto>(parameters.Fields))
+                return BadRequest();
+
             var charactersFromRepo = repository.GetCharacters(parameters);
 
             var previousPageLink = charactersFromRepo.HasPrevious
@@ -57,7 +75,7 @@ namespace StarWars.Api.Controllers
 
             var charactersToReturn = Mapper.Map<IEnumerable<CharacterDto>>(charactersFromRepo);
 
-            return Ok(charactersToReturn);
+            return Ok(charactersToReturn.ShapeData(parameters.Fields));
         }
 
         private string CreateCharactersResourcesUri(
@@ -69,6 +87,8 @@ namespace StarWars.Api.Controllers
                 case ResourceUriType.PreviousPage:
                     return Url.Link("GetCharacters", new
                     {
+                        orderBy = parameters.OrderBy,
+                        fields = parameters.Fields,
                         planet = parameters.Planet,
                         searchQuery = parameters.SearchQuery,
                         pageNumber = parameters.PageNumber - 1,
@@ -78,6 +98,8 @@ namespace StarWars.Api.Controllers
                 case ResourceUriType.NextPage:
                     return Url.Link("GetCharacters", new
                     {
+                        orderBy = parameters.OrderBy,
+                        fields = parameters.Fields,
                         planet = parameters.Planet,
                         searchQuery = parameters.SearchQuery,
                         pageNumber = parameters.PageNumber + 1,
@@ -87,6 +109,8 @@ namespace StarWars.Api.Controllers
                 default:
                     return Url.Link("GetCharacters", new
                     {
+                        orderBy = parameters.OrderBy,
+                        fields = parameters.Fields,
                         planet = parameters.Planet,
                         searchQuery = parameters.SearchQuery,
                         pageNumber = parameters.PageNumber,

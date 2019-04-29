@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 using NLog.Extensions.Logging;
 using StarWars.Api.Entities;
 using StarWars.Api.Models;
 using StarWars.Api.Services;
+using StarWars.API.Services;
 
 namespace testWebNet
 {
@@ -31,7 +33,27 @@ namespace testWebNet
             {
                 setupAction.ReturnHttpNotAcceptable = true;
             })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            .AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver
+                = new CamelCasePropertyNamesContractResolver();
+            });
+
+            //services.AddSwaggerGen(c =>
+            //   {
+            //       c.SwaggerDoc("v1.0", new Info {
+            //           Title = "StarWars.API",
+            //           Version = "1.0",
+            //           Description = "StarWars repository with characters",
+            //           TermsOfService = "None",
+            //           Contact = new Contact
+            //           {
+            //               Name = "Krzysztof Soporek",
+            //               Email = "k.soporek@gmail.com",
+            //           }
+            //       });
+            //   });
 
             services.AddDbContext<StarWarsContext>(options =>
             {
@@ -49,6 +71,10 @@ namespace testWebNet
                 .ActionContext;
                 return new UrlHelper(actionContext);
             });
+
+            services.AddTransient<IPropertyMappingService, PropertyMappingService>();
+
+            services.AddTransient<ITypeHelperService, TypeHelperService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,6 +126,14 @@ namespace testWebNet
                config.CreateMap<EpisodeForCreationDto, Episode>();
                config.CreateMap<EpisodeForUpdateDto, Episode>();
            });
+
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("swagger/swagger.json", "StarWars.API (V 1.0)");
+            //    //c.RoutePrefix = "help";
+            //    //c.InjectStylesheet("../css/swagger.min.css");
+            //});
 
             starWarsContext.StartWithFreshData();
             app.UseHttpsRedirection();

@@ -1,7 +1,10 @@
-﻿using StarWars.Api.Entities;
+﻿using Library.API.Helpers;
+using StarWars.Api.Entities;
 using StarWars.Api.Helpers;
 using StarWars.Api.Helpers.Pagination;
+using StarWars.Api.Models;
 using StarWars.API.Helpers;
+using StarWars.API.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +15,14 @@ namespace StarWars.Api.Services
     {
         private readonly StarWarsContext context;
 
-        public StarWarsRepository(StarWarsContext context) =>
+        public IPropertyMappingService propertyMappingService;
+
+        public StarWarsRepository(StarWarsContext context,
+            IPropertyMappingService propertyMappingService)
+        {
             this.context = context;
+            this.propertyMappingService = propertyMappingService;
+        }
 
         public void AddCharacter(Character character)
         {
@@ -49,10 +58,9 @@ namespace StarWars.Api.Services
 
         public PagedList<Character> GetCharacters(CharacterResourceParameters parameters)
         {
-            var collectionBeforePaging =
-                context.Characters
-                .OrderBy(c => c.Name)
-                .AsQueryable();
+            var collectionBeforePaging = context.Characters
+                .ApplySort(parameters.OrderBy,
+                propertyMappingService.GetPropertyMapping<CharacterDto, Character>());
 
             if (!string.IsNullOrEmpty(parameters.Planet))
             {

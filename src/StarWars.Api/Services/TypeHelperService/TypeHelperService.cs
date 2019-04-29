@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Library.API.Services
+namespace StarWars.API.Services
 {
     public class TypeHelperService : ITypeHelperService
     {

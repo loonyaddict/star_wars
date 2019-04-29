@@ -1,30 +1,29 @@
-﻿using Library.API.Entities;
-using Library.API.Models;
+﻿using StarWars.Api.Entities;
+using StarWars.Api.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace Library.API.Services
+namespace StarWars.API.Services
 {
     public class PropertyMappingService : IPropertyMappingService
     {
-        private Dictionary<string, PropertyMappingValue> _authorPropertyMapping =
+        private Dictionary<string, PropertyMappingValue> characterPropertyMapping =
            new Dictionary<string, PropertyMappingValue>(StringComparer.OrdinalIgnoreCase)
            {
-               { "Id", new PropertyMappingValue(new List<string>() { "Id" } ) },
-               { "Genre", new PropertyMappingValue(new List<string>() { "Genre" } )},
-               { "Age", new PropertyMappingValue(new List<string>() { "DateOfBirth" } , true) },
-               { "Name", new PropertyMappingValue(new List<string>() { "FirstName", "LastName" }) }
+               { "Id", new PropertyMappingValue(new List<string>() { "Id" } )},
+               { "Planet", new PropertyMappingValue(new List<string>() { "Planet" } )},
+               { "Name", new PropertyMappingValue(new List<string>() { "Name" } )}
            };
 
         private IList<IPropertyMapping> propertyMappings = new List<IPropertyMapping>();
 
         public PropertyMappingService()
         {
-            propertyMappings.Add(new PropertyMapping<AuthorDto, Author>(_authorPropertyMapping));
+            propertyMappings.Add(new PropertyMapping<CharacterDto, Character>(characterPropertyMapping));
         }
-        public Dictionary<string, PropertyMappingValue>  GetPropertyMapping
+
+        public Dictionary<string, PropertyMappingValue> GetPropertyMapping
             <TSource, TDestination>()
         {
             // get matching mapping
@@ -56,8 +55,8 @@ namespace Library.API.Services
                 // trim
                 var trimmedField = field.Trim();
 
-                // remove everything after the first " " - if the fields 
-                // are coming from an orderBy string, this part must be 
+                // remove everything after the first " " - if the fields
+                // are coming from an orderBy string, this part must be
                 // ignored
                 var indexOfFirstSpace = trimmedField.IndexOf(" ");
                 var propertyName = indexOfFirstSpace == -1 ?
@@ -70,8 +69,6 @@ namespace Library.API.Services
                 }
             }
             return true;
-
         }
-
     }
 }
