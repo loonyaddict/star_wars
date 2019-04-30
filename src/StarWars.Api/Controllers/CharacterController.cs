@@ -39,6 +39,37 @@ namespace StarWars.Api.Controllers
             this.typeHelperService = typeHelperService;
         }
 
+        [HttpGet("{id}", Name = "GetCharacter")]
+        public IActionResult GetAuthor(Guid id)
+        {
+            var characterFromRepo = repository.GetCharacter(id);
+            var authorToReturn = Mapper.Map<CharacterDto>(characterFromRepo);
+
+            return Ok(characterFromRepo);
+        }
+
+        [HttpPost]
+        public IActionResult CreateCharacter([FromBody] CharacterForCreationDto characterToCreate)
+        {
+            if (characterToCreate == null)
+                return BadRequest();
+            ModelState.CheckModelForSameNameAndPlanet(characterToCreate);
+            if (!ModelState.IsValid)
+                return new UnprocessableEntityObjectResult(ModelState);
+
+            var character = Mapper.Map<Character>(characterToCreate);
+
+            repository.AddCharacter(character);
+
+            Save(exceptionMessage: "Creating character failed on save.");
+
+            var characterToReturn = Mapper.Map<CharacterDto>(character);
+
+            return CreatedAtRoute("GetCharacter",
+                new { id = character.Id },
+                characterToReturn);
+        }
+
         [HttpGet(Name = "GetCharacters")]
         public IActionResult GetCharacters(CharacterResourceParameters parameters)
 
@@ -119,36 +150,6 @@ namespace StarWars.Api.Controllers
             }
         }
 
-        [HttpGet("{id}", Name = "GetCharacter")]
-        public IActionResult GetAuthor(Guid id)
-        {
-            var characterFromRepo = repository.GetCharacter(id);
-            var authorToReturn = Mapper.Map<CharacterDto>(characterFromRepo);
-
-            return Ok(characterFromRepo);
-        }
-
-        public IActionResult CreateCharacter([FromBody] CharacterForCreationDto characterToCreate)
-        {
-            if (characterToCreate == null)
-                return BadRequest();
-            ModelState.CheckModelForSameNameAndPlanet(characterToCreate);
-            if (!ModelState.IsValid)
-                return new UnprocessableEntityObjectResult(ModelState);
-
-            var character = Mapper.Map<Character>(characterToCreate);
-
-            repository.AddCharacter(character);
-
-            Save(exceptionMessage: "Creating character failed on save.");
-
-            var characterToReturn = Mapper.Map<CharacterDto>(character);
-
-            return CreatedAtRoute("GetCharacter",
-                new { id = character.Id },
-                characterToReturn);
-        }
-
         [HttpDelete("{id}")]
         public IActionResult DeleteCharacter(Guid id)
         {
@@ -213,7 +214,7 @@ namespace StarWars.Api.Controllers
 
         [HttpPatch("{id}")]
         public IActionResult PartiallyUpdateCharacter(Guid id,
-            [FromBody] JsonPatchDocument<CharacterForUpdateDto> patchDoc)
+        [FromBody] JsonPatchDocument<CharacterForUpdateDto> patchDoc)
         {
             if (patchDoc == null)
                 return BadRequest();

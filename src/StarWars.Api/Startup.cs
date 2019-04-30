@@ -14,6 +14,7 @@ using StarWars.Api.Entities;
 using StarWars.Api.Models;
 using StarWars.Api.Services;
 using StarWars.API.Services;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace testWebNet
 {
@@ -40,21 +41,6 @@ namespace testWebNet
                 = new CamelCasePropertyNamesContractResolver();
             });
 
-            //services.AddSwaggerGen(c =>
-            //   {
-            //       c.SwaggerDoc("v1.0", new Info {
-            //           Title = "StarWars.API",
-            //           Version = "1.0",
-            //           Description = "StarWars repository with characters",
-            //           TermsOfService = "None",
-            //           Contact = new Contact
-            //           {
-            //               Name = "Krzysztof Soporek",
-            //               Email = "k.soporek@gmail.com",
-            //           }
-            //       });
-            //   });
-
             services.AddDbContext<StarWarsContext>(options =>
             {
                 options.UseInMemoryDatabase("StarWars-api");
@@ -75,6 +61,20 @@ namespace testWebNet
             services.AddTransient<IPropertyMappingService, PropertyMappingService>();
 
             services.AddTransient<ITypeHelperService, TypeHelperService>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Title = "StarWars.API",
+                    Version = "V1",
+                    Contact = new Contact
+                    {
+                        Name = "Krzysztof Soporek",
+                        Email = "k.soporek@gmail.com",
+                    }
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -127,13 +127,11 @@ namespace testWebNet
                config.CreateMap<EpisodeForUpdateDto, Episode>();
            });
 
-            //app.UseSwagger();
-            //app.UseSwaggerUI(c =>
-            //{
-            //    c.SwaggerEndpoint("swagger/swagger.json", "StarWars.API (V 1.0)");
-            //    //c.RoutePrefix = "help";
-            //    //c.InjectStylesheet("../css/swagger.min.css");
-            //});
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "StarWars.API V1");
+            });
 
             starWarsContext.StartWithFreshData();
             app.UseHttpsRedirection();
