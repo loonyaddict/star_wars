@@ -6,21 +6,49 @@ using StarWars.Api.Controllers.ControllersHelper.CharacterHelper;
 using StarWars.Api.Entities;
 using StarWars.Api.Models;
 using StarWars.Api.Services;
+using StarWars.API.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace StarWars.Api.Controllers
 {
+    /// <summary>
+    /// Controls character collections.
+    /// </summary>
     [Route("api/charactercollections")]
     public class CharacterCollectionsController : StarWarsController
     {
         private readonly ILogger<CharacterCollectionsController> logger;
+        
+        /// <summary>
+        /// CharacterCollections Controller.
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="logger"></param>
+        /// <param name="propertyMappingService"></param>
+        /// <param name="typeHelperService"></param>
+        public CharacterCollectionsController(IStarWarsRepository repository,
+            ILogger<CharacterCollectionsController> logger,
+            IPropertyMappingService propertyMappingService,
+            ITypeHelperService typeHelperService)
 
-        public CharacterCollectionsController(IStarWarsRepository repository, ILogger<CharacterCollectionsController> logger)
-            : base(repository) =>
+            : base(repository, propertyMappingService, typeHelperService) =>
             this.logger = logger;
 
+        /// <summary>
+        /// Get collection of characters providing their ids.
+        /// </summary>
+        /// <remarks>
+        /// Not supported by swagger
+        /// example use by browser:
+        /// https://localhost:44376/api/charactercollections/(ea024f46-5dd8-44d6-9444-110bcb26691f,0021ffa5-bd77-4df5-b61d-738993b92ab3)
+        /// </remarks>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         [HttpGet("({ids})", Name = "GetCharacterCollection")]
         public IActionResult GetAuthorCollection(
             [ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
@@ -38,6 +66,29 @@ namespace StarWars.Api.Controllers
             return Ok(authorsToReturn);
         }
 
+        /// <summary>
+        /// Post new collection of characters.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        /// [
+        /// 
+        ///     {
+        ///			"name": "Wookie",
+        ///		    "planet": "Furry land"
+        ///		},
+        ///		{
+        ///			"name": "Jabba",
+        ///		    "planet": "Desert"
+        ///		}
+        ///		
+        ///	]
+        /// </remarks>
+        /// <param name="charactersForCreations"></param>
+        /// <returns></returns>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         [HttpPost]
         public IActionResult CreateAuthorColletion(
             [FromBody] IEnumerable<CharacterForCreationDto> charactersForCreations)

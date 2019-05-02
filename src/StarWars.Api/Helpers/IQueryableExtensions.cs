@@ -6,8 +6,19 @@ using System.Linq.Dynamic.Core;
 
 namespace Library.API.Helpers
 {
+    /// <summary>
+    /// Helpers for Query manipulation.
+    /// </summary>
     public static class IQueryableExtensions
     {
+        /// <summary>
+        /// Shape data representation by string specified 'fields'.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="mappingDictionary"></param>
+        /// <returns></returns>
         public static IQueryable<T> ApplySort<T>(this IQueryable<T> source, string orderBy,
             Dictionary<string, PropertyMappingValue> mappingDictionary)
         {
@@ -75,7 +86,14 @@ namespace Library.API.Helpers
             }
             return source;
         }
-
+        /// <summary>
+        /// Shape by specified string 'fields' using mapping dictionary.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="fields"></param>
+        /// <param name="mappingDictionary"></param>
+        /// <returns></returns>
         public static IQueryable<object> ShapeData<TSource>(this IQueryable<TSource> source,
             string fields,
            Dictionary<string, PropertyMappingValue> mappingDictionary)

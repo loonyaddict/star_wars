@@ -5,6 +5,9 @@ using System.IO;
 
 namespace StarWars.Api.Entities
 {
+    /// <summary>
+    /// Extensions needed for development.
+    /// </summary>
     public static class StarWarsContextExtensions
     {
         /// <summary>
@@ -17,13 +20,10 @@ namespace StarWars.Api.Entities
             context.Characters.RemoveRange(context.Characters);
             context.SaveChanges();
 
-            
-
             var seedLocation = Path.Combine(
                 Environment.CurrentDirectory,
                 @"Entities\DevExtensions",
                 "star_wars_seed.json");
-
             var seedContent = File.ReadAllText(seedLocation);
             var charactersToAdd = JsonConvert.DeserializeObject<List<Character>>(seedContent);
 

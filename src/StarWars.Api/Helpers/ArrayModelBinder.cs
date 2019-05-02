@@ -8,8 +8,16 @@ using System.Threading.Tasks;
 
 namespace Library.API.Helpers
 {
+    /// <summary>
+    /// Helper class for binding Arrays
+    /// </summary>
     public class ArrayModelBinder : IModelBinder
     {
+        /// <summary>
+        /// Binds enumerables to ArrayModel
+        /// </summary>
+        /// <param name="bindingContext"></param>
+        /// <returns></returns>
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
             // Our binder works only on enumerable types

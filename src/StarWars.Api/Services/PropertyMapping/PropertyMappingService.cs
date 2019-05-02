@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StarWars.API.Services
 {
-    public class PropertyMappingService : IPropertyMappingService
+     class PropertyMappingService : IPropertyMappingService
     {
         private Dictionary<string, PropertyMappingValue> characterPropertyMapping =
            new Dictionary<string, PropertyMappingValue>(StringComparer.OrdinalIgnoreCase)
@@ -31,7 +31,7 @@ namespace StarWars.API.Services
 
             if (matchingMapping.Count() == 1)
             {
-                return matchingMapping.First()._mappingDictionary;
+                return matchingMapping.First().MappingDictionary;
             }
 
             throw new Exception($"Cannot find exact property mapping instance for <{typeof(TSource)},{typeof(TDestination)}");

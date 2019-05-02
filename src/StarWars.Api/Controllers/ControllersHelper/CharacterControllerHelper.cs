@@ -3,6 +3,9 @@ using StarWars.Api.Entities;
 
 namespace StarWars.Api.Controllers.ControllersHelper.CharacterHelper
 {
+    /// <summary>
+    /// Reusable operations in CharacterController and character CharacterCollectionsController.
+    /// </summary>
     public static class CharacterControllerHelper
     {
         /// <summary>

@@ -7,8 +7,18 @@ using System.Threading.Tasks;
 
 namespace Library.API.Helpers
 {
+    /// <summary>
+    /// Helpers for object manipulation.
+    /// </summary>
     public static class ObjectExtensions
     {
+        /// <summary>
+        /// Shape data representation by string specified 'fields'.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
         public static ExpandoObject ShapeData<TSource>(this TSource source,
           string fields)
         {

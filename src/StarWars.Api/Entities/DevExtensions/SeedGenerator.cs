@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StarWars.Api.Entities.DevExtensions
 {
-    public class SeedGenerator
+    internal class SeedGenerator
     {
         private readonly Random random = new Random();
 
@@ -61,8 +61,7 @@ namespace StarWars.Api.Entities.DevExtensions
             }
         }
 
-        public IEnumerable<Character> GetNewSeed((int min, int max) episodes)
-        //(int min, int max) friends)
+        internal IEnumerable<Character> GetNewSeed((int min, int max) episodes)
         {
             IList<Character> charactersList = new List<Character>();
             foreach (var characterName in names)
@@ -81,7 +80,7 @@ namespace StarWars.Api.Entities.DevExtensions
 
         #region ExampleUse
 
-        public void ExampleUse()
+        internal void ExampleUse()
         {
             SeedGenerator generator = new SeedGenerator();
             var charactersToAdd = generator.GetNewSeed(episodes: (0, 2));

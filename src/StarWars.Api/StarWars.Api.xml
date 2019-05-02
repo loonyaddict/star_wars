@@ -4,9 +4,170 @@
         <name>StarWars.Api</name>
     </assembly>
     <members>
+        <member name="T:StarWars.Api.Controllers.CharacterCollectionsController">
+            <summary>
+            Controls character collections.
+            </summary>
+        </member>
+        <member name="M:StarWars.Api.Controllers.CharacterCollectionsController.#ctor(StarWars.Api.Services.IStarWarsRepository,Microsoft.Extensions.Logging.ILogger{StarWars.Api.Controllers.CharacterCollectionsController},StarWars.API.Services.IPropertyMappingService,StarWars.API.Services.ITypeHelperService)">
+            <summary>
+            CharacterCollections Controller.
+            </summary>
+            <param name="repository"></param>
+            <param name="logger"></param>
+            <param name="propertyMappingService"></param>
+            <param name="typeHelperService"></param>
+        </member>
+        <member name="M:StarWars.Api.Controllers.CharacterCollectionsController.GetAuthorCollection(System.Collections.Generic.IEnumerable{System.Guid})">
+            <summary>
+            Get collection of characters providing their ids.
+            </summary>
+            <remarks>
+            Not supported by swagger
+            example use by browser:
+            https://localhost:44376/api/charactercollections/(ea024f46-5dd8-44d6-9444-110bcb26691f,0021ffa5-bd77-4df5-b61d-738993b92ab3)
+            </remarks>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Controllers.CharacterCollectionsController.CreateAuthorColletion(System.Collections.Generic.IEnumerable{StarWars.Api.Models.CharacterForCreationDto})">
+            <summary>
+            Post new collection of characters.
+            </summary>
+            <remarks>
+            Sample request:
+            
+            [
+            
+                {
+            		"name": "Wookie",
+            	    "planet": "Furry land"
+            	},
+            	{
+            		"name": "Jabba",
+            	    "planet": "Desert"
+            	}
+            	
+            ]
+            </remarks>
+            <param name="charactersForCreations"></param>
+            <returns></returns>
+        </member>
         <member name="T:StarWars.Api.Controllers.CharacterController">
             <summary>
             Support various operations on characters in repository.
+            </summary>
+        </member>
+        <member name="M:StarWars.Api.Controllers.CharacterController.#ctor(StarWars.Api.Services.IStarWarsRepository,Microsoft.Extensions.Logging.ILogger{StarWars.Api.Controllers.CharacterController},Microsoft.AspNetCore.Mvc.IUrlHelper,StarWars.API.Services.IPropertyMappingService,StarWars.API.Services.ITypeHelperService)">
+            <summary>
+            Character Controller.
+            </summary>
+            <param name="repository"></param>
+            <param name="logger"></param>
+            <param name="urlHelper"></param>
+            <param name="propertyMappingService"></param>
+            <param name="typeHelperService"></param>
+        </member>
+        <member name="M:StarWars.Api.Controllers.CharacterController.GetAuthor(System.Guid)">
+            <summary>
+            Gets single character record specified by id.
+            </summary>
+            <remarks>
+            Some characters ids from seed:
+            b1ffc6ab-3c09-4fc0-a21d-6c7445753219
+            2de7652d-b826-4dd3-ba76-57feb2154fc6
+            199a49bc-6e0c-4906-8ab9-f321ffc8e764
+            ea024f46-5dd8-44d6-9444-110bcb26691f
+            ebbd1f7d-269b-4312-973a-ecbe2eebc223
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Controllers.CharacterController.GetCharacters(StarWars.Api.Helpers.Pagination.CharacterResourceParameters)">
+            <summary>
+            Gets characters from repository
+            </summary>
+            <remarks>
+            If result does not fit in one page check total count, page number
+            and links to previous and next page in response headers.
+            </remarks>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Controllers.CharacterController.CreateCharacter(StarWars.Api.Models.CharacterForCreationDto)">
+             <summary>
+             Creates new chracter from CharacterToCreate Model
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 {
+                    "name": "Jabba Hut",
+                    "planet": "Unknown"
+                 }
+            
+             </remarks>
+             <param name="characterToCreate"></param>
+             <returns>Newly created character</returns>
+        </member>
+        <member name="M:StarWars.Api.Controllers.CharacterController.DeleteCharacter(System.Guid)">
+            <summary>
+            Deletes character from repository
+            </summary>
+            <remarks>
+            Some characters ids from seed:
+            b1ffc6ab-3c09-4fc0-a21d-6c7445753219
+            2de7652d-b826-4dd3-ba76-57feb2154fc6
+            199a49bc-6e0c-4906-8ab9-f321ffc8e764
+            ea024f46-5dd8-44d6-9444-110bcb26691f
+            ebbd1f7d-269b-4312-973a-ecbe2eebc223
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Controllers.CharacterController.UpdateCharacter(System.Guid,StarWars.Api.Models.CharacterForUpdateDto)">
+             <summary>
+             Update specified character with CharacterForUpdateDto model.
+             Will override previous character instance in repository.
+             Will create new character if id does not exist in repository.
+             </summary>
+             <remarks>
+             Existing character id: e751e291-34bf-4fb4-811b-24e1b81fb1e8
+             Sample request:
+            
+                 {
+                    "name": "Wookie"
+                 }
+            
+             </remarks>
+             <param name="id"></param>
+             <param name="character"></param>
+             <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Controllers.CharacterController.PartiallyUpdateCharacter(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{StarWars.Api.Models.CharacterForUpdateDto})">
+             <summary>
+             PartiallyUpdate specified character with json patch.
+             Supports upsertion.
+             </summary>
+             <remarks>
+             Existing character id: 3810eba8-b61b-4b6b-8359-8b5480421042
+             Requests must be placed in [ ] array.
+             Sample request:
+            
+                 {
+                     "op": "replace",
+                     "path": "/name",
+                     "value": "Replaced name"
+                 },
+            
+             </remarks>
+             <param name="id"></param>
+             <param name="patchDoc"></param>
+             <returns></returns>
+        </member>
+        <member name="T:StarWars.Api.Controllers.ControllersHelper.CharacterHelper.CharacterControllerHelper">
+            <summary>
+            Reusable operations in CharacterController and character CharacterCollectionsController.
             </summary>
         </member>
         <member name="M:StarWars.Api.Controllers.ControllersHelper.CharacterHelper.CharacterControllerHelper.CheckModelForSameNameAndPlanet(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary,StarWars.Api.Entities.ICharacter)">
@@ -16,10 +177,156 @@
             <param name="modelState"></param>
             <param name="character"></param>
         </member>
+        <member name="T:StarWars.Api.Controllers.EpisodesController">
+            <summary>
+            Support various operations on episodes in repository.
+            </summary>
+        </member>
+        <member name="M:StarWars.Api.Controllers.EpisodesController.#ctor(StarWars.Api.Services.IStarWarsRepository,Microsoft.Extensions.Logging.ILogger{StarWars.Api.Controllers.EpisodesController},StarWars.API.Services.IPropertyMappingService,StarWars.API.Services.ITypeHelperService)">
+            <summary>
+            Episodes Controller.
+            </summary>
+            <param name="repository"></param>
+            <param name="logger"></param>
+            <param name="propertyMappingService"></param>
+            <param name="typeHelperService"></param>
+        </member>
+        <member name="M:StarWars.Api.Controllers.EpisodesController.GetEpisodesForCharacter(System.Guid)">
+            <summary>
+            Gets episodes for specified character.
+            </summary>
+            <remarks>
+            Some characters ids from seed:
+            b1ffc6ab-3c09-4fc0-a21d-6c7445753219
+            2de7652d-b826-4dd3-ba76-57feb2154fc6
+            199a49bc-6e0c-4906-8ab9-f321ffc8e764
+            ea024f46-5dd8-44d6-9444-110bcb26691f
+            ebbd1f7d-269b-4312-973a-ecbe2eebc223
+            </remarks>
+            <param name="characterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Controllers.EpisodesController.GetEpisodeForCharacter(System.Guid,System.Guid)">
+            <summary>
+            Gets specified episode for specified character
+            </summary>
+            <remarks>
+            Existing character id:
+            557e7ac2-28e7-466e-8d34-10b7d72ea66d
+            Existing episode id for that character:
+            ca3979cb-aa6a-457a-9b66-170335925959
+            </remarks>
+            <param name="characterId"></param>
+            <param name="episodeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Controllers.EpisodesController.AddEpisodeForCharacter(System.Guid,StarWars.Api.Models.EpisodeForCreationDto)">
+             <summary>
+             Add episode to specified character. 
+             </summary>
+             <remarks>
+             Existing character id:
+             1d26bfac-aa69-406b-abfd-6d1990929632
+             Sample request:
+            
+                 {
+                    "name": "Some Mouse Company Adaptation",
+                 }
+            
+             </remarks>
+             <param name="characterId"></param>
+             <param name="episode">EpisodeForCreationDto</param>
+             <returns>Newly created character</returns>
+        </member>
+        <member name="M:StarWars.Api.Controllers.EpisodesController.DeleteEpisodeForCharacter(System.Guid,System.Guid)">
+            <summary>
+            Deletes specified episode for specified character from repository
+            </summary>
+            <remarks>
+            Existing character id:
+            1b4d8cda-2da3-403c-a4c0-c835b5861d29
+            Existing episode id for that character:
+            4f11a283-cc51-4499-84ae-ef3da7899742
+            </remarks>
+            <param name="characterId"></param>
+            /// <param name="episodeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Controllers.EpisodesController.UpdateEpisodeForCharacter(System.Guid,System.Guid,StarWars.Api.Models.EpisodeForUpdateDto)">
+             <summary>
+             Update specified episode for specified character with EpisodeForUpdateDto model.
+             Will override previous episode instance in repository.
+             Will create new episode for character if episodeId does not exist in repository.
+             </summary>
+             <remarks>
+             Existing character id: 
+             e751e291-34bf-4fb4-811b-24e1b81fb1e8
+             Sample request:
+            
+                 {
+                    "name": "Newest hope",
+                 }
+            
+             </remarks>
+             <param name="characterId"></param>
+             <param name="episodeId"></param>
+             <param name="episode">EpisodeForUpdateDto</param>
+             <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Controllers.EpisodesController.PartiallyUpdateEpisodeForCharacter(System.Guid,System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{StarWars.Api.Models.EpisodeForUpdateDto})">
+             <summary>
+             PartiallyUpdate specified episode for specified character with json patch.
+             Supports upsertion.
+             </summary>
+             <remarks>
+             Existing character id: 
+             9d5e38d7-900d-4b7d-a9b9-20c0f5059d61
+             Existing episode id for that character:
+             93dc2261-8882-4193-bae9-a628f6b1728b
+             Requests must be placed in [ ] array.
+             Sample request:
+            [
+            
+                 {
+                     "op": "replace",
+                     "path": "/name",
+                     "value": "Empire Strikes Again"
+                 },
+            
+             ]
+             </remarks>
+             <param name="characterId"></param>
+             <param name="episodeId"></param>
+             <param name="patchDoc"></param>
+             <returns></returns>
+        </member>
         <member name="T:StarWars.Api.Controllers.StarWarsController">
             <summary>
             Base class for StarWars.Api Controllers.
             </summary>
+        </member>
+        <member name="F:StarWars.Api.Controllers.StarWarsController.repository">
+            <summary>
+            StarWars repository
+            </summary>
+        </member>
+        <member name="F:StarWars.Api.Controllers.StarWarsController.propertyMappingService">
+            <summary>
+            PropertyMapping services. Check Services/PropertyMapping/
+            </summary>
+        </member>
+        <member name="F:StarWars.Api.Controllers.StarWarsController.typeHelperService">
+            <summary>
+            TypeHelper services. Check Services/TypeHelperService
+            </summary>
+        </member>
+        <member name="M:StarWars.Api.Controllers.StarWarsController.#ctor(StarWars.Api.Services.IStarWarsRepository,StarWars.API.Services.IPropertyMappingService,StarWars.API.Services.ITypeHelperService)">
+            <summary>
+            Base constructor.
+            </summary>
+            <param name="repository"></param>
+            <param name="propertyMappingService"></param>
+            <param name="typeHelperService"></param>
         </member>
         <member name="M:StarWars.Api.Controllers.StarWarsController.Save(System.String)">
             <summary>
@@ -27,11 +334,636 @@
             </summary>
             <param name="exceptionMessage"></param>
         </member>
+        <member name="T:StarWars.Api.Entities.Character">
+            <summary>
+            Character entity.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Entities.Character.Id">
+            <summary>
+            Id in database
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Entities.Character.Name">
+            <summary>
+            Character name.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Entities.Character.Planet">
+            <summary>
+            Character planet.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Entities.Character.Episodes">
+            <summary>
+            Charaters episodes.
+            </summary>
+        </member>
+        <member name="T:StarWars.Api.Entities.StarWarsContextExtensions">
+            <summary>
+            Extensions needed for development.
+            </summary>
+        </member>
         <member name="M:StarWars.Api.Entities.StarWarsContextExtensions.StartWithFreshData(StarWars.Api.Entities.StarWarsContext)">
             <summary>
             This method clears database and puts some hard coded characters.
             </summary>
             <param name="context"></param>
+        </member>
+        <member name="T:StarWars.Api.Entities.Episode">
+            <summary>
+            Episode entity
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Entities.Episode.Id">
+            <summary>
+            Key in database.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Entities.Episode.Name">
+            <summary>
+            Episode name.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Entities.Episode.Character">
+            <summary>
+            Reference to parent.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Entities.Episode.CharacterId">
+            <summary>
+            Reference to parentId used by database for faster search.
+            </summary>
+        </member>
+        <member name="T:StarWars.Api.Entities.ICharacter">
+            <summary>
+            ICharacter interface for code reusability.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Entities.ICharacter.Name">
+            <summary>
+            Character name.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Entities.ICharacter.Planet">
+            <summary>
+            Character planet.
+            </summary>
+        </member>
+        <member name="T:StarWars.Api.Entities.StarWarsContext">
+            <summary>
+            Database context.
+            </summary>
+        </member>
+        <member name="M:StarWars.Api.Entities.StarWarsContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{StarWars.Api.Entities.StarWarsContext})">
+            <summary>
+            Database context.
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="P:StarWars.Api.Entities.StarWarsContext.Characters">
+            <summary>
+            Characters
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Entities.StarWarsContext.Episodes">
+            <summary>
+            Episodes
+            </summary>
+        </member>
+        <member name="M:StarWars.Api.Entities.StarWarsContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Add relations and rules to database.
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="T:StarWars.Api.Helpers.Pagination.CharacterResourceParameters">
+            <summary>
+            Parameters for GetCharacters. Enables paging, search query and filtering.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Helpers.Pagination.CharacterResourceParameters.SearchQuery">
+            <summary>
+            "an"                                                                            
+            should return Cassian Andor, Lando Calrissian and characters from planet Ando and Takodana.
+            Search for characters that contain SearchQuery string in name or planet.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Helpers.Pagination.CharacterResourceParameters.OrderBy">
+            <summary>
+            "planet desc, name"                                                                         
+            Set sorting order.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Helpers.Pagination.CharacterResourceParameters.Fields">
+            <summary>
+            "id, name"                                                              
+            Select fields to display.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Helpers.Pagination.CharacterResourceParameters.Planet">
+            <summary>
+            "Anoat"                                                                                
+            Search for characters from specified planet.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Helpers.Pagination.CharacterResourceParameters.PageNumber">
+            <summary>
+            (default) 1                                                                                                                  
+            Page to display
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Helpers.Pagination.CharacterResourceParameters.PageSize">
+            <summary>
+            (default) 10                                            
+            Number of records to display on single page. Max: 20.
+            </summary>
+        </member>
+        <member name="T:StarWars.Api.Helpers.UnprocessableEntityObjectResult">
+            <summary>
+            Reusable ModelState error information.
+            </summary>
+        </member>
+        <member name="M:StarWars.Api.Helpers.UnprocessableEntityObjectResult.#ctor(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary)">
+            <summary>
+            Reusable ModelState error information.
+            </summary>
+            <param name="modelState"></param>
+        </member>
+        <member name="T:StarWars.Api.Models.CharacterDto">
+            <summary>
+            Model to be returned to user by default.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Models.CharacterDto.Id">
+            <summary>
+            Character Id in database.
+            </summary>
+        </member>
+        <member name="T:StarWars.Api.Models.CharacterForCreationDto">
+            <summary>
+            Model for character creation.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Models.CharacterForCreationDto.Episodes">
+            <summary>
+            Enables adding episodes in one request.
+            </summary>
+        </member>
+        <member name="T:StarWars.Api.Models.CharacterForUpdateDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StarWars.Api.Models.CharacterModelDto">
+            <summary>
+            Base class for CharacterModel
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Models.CharacterModelDto.Name">
+            <summary>
+            Character name
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Models.CharacterModelDto.Planet">
+            <summary>
+            Character planet
+            </summary>
+        </member>
+        <member name="T:StarWars.Api.Models.EpisodeDto">
+            <summary>
+            Model to be returned to user by default.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Models.EpisodeDto.Id">
+            <summary>
+            Id of episode in database
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Models.EpisodeDto.Name">
+            <summary>
+            Episode name.
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Models.EpisodeDto.CharacterId">
+            <summary>
+            Reference to parent Character.
+            </summary>
+        </member>
+        <member name="T:StarWars.Api.Models.EpisodeForCreationDto">
+            <summary>
+            Model for episode creation.
+            </summary>
+        </member>
+        <member name="T:StarWars.Api.Models.EpisodeForUpdateDto">
+            <summary>
+            Model for episode update.
+            </summary>
+        </member>
+        <member name="T:StarWars.Api.Models.EpisodeModelDto">
+            <summary>
+            Base class for Episode model
+            </summary>
+        </member>
+        <member name="P:StarWars.Api.Models.EpisodeModelDto.Name">
+            <summary>
+            Episode name
+            </summary>
+        </member>
+        <member name="T:StarWars.Api.Services.IStarWarsRepository">
+            <summary>
+            Repository for manipulating database context within Api.
+            </summary>
+        </member>
+        <member name="M:StarWars.Api.Services.IStarWarsRepository.GetCharacters(StarWars.Api.Helpers.Pagination.CharacterResourceParameters)">
+            <summary>
+            Get characters PagedList from repository.
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Services.IStarWarsRepository.GetCharacter(System.Guid)">
+            <summary>
+            Get single character from repository that matches specified id.
+            </summary>
+            <param name="characterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Services.IStarWarsRepository.GetCharacters(System.Collections.Generic.IEnumerable{System.Guid})">
+            <summary>
+            Get characters that match specified ids.
+            </summary>
+            <param name="characterIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Services.IStarWarsRepository.AddCharacter(StarWars.Api.Entities.Character)">
+            <summary>
+            Add new character to repository.
+            </summary>
+            <param name="character"></param>
+        </member>
+        <member name="M:StarWars.Api.Services.IStarWarsRepository.DeleteCharacter(StarWars.Api.Entities.Character)">
+            <summary>
+            Delete character from repository.
+            </summary>
+            <param name="character"></param>
+        </member>
+        <member name="M:StarWars.Api.Services.IStarWarsRepository.UpdateCharacter(StarWars.Api.Entities.Character)">
+            <summary>
+            Update character in repository.
+            </summary>
+            <param name="character"></param>
+        </member>
+        <member name="M:StarWars.Api.Services.IStarWarsRepository.CharacterExists(System.Guid)">
+            <summary>
+            Check if character exists.
+            </summary>
+            <param name="characterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Services.IStarWarsRepository.AddEpisodeForCharacter(System.Guid,StarWars.Api.Entities.Episode)">
+            <summary>
+            Add episode for character.
+            </summary>
+            <param name="characterId"></param>
+            <param name="episode"></param>
+        </member>
+        <member name="M:StarWars.Api.Services.IStarWarsRepository.GetEpisodesForCharacter(System.Guid)">
+            <summary>
+            Get all episodes for specified character.
+            </summary>
+            <param name="characterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Services.IStarWarsRepository.GetEpisodeForCharacter(System.Guid,System.Guid)">
+            <summary>
+            Get specified episode for specified character.
+            </summary>
+            <param name="characterId"></param>
+            <param name="episodeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Services.IStarWarsRepository.DeleteEpisode(StarWars.Api.Entities.Episode)">
+            <summary>
+            Delete specified episode.
+            </summary>
+            <param name="episode"></param>
+        </member>
+        <member name="M:StarWars.Api.Services.IStarWarsRepository.UpdateEpisodeForCharacter(System.Guid,StarWars.Api.Entities.Episode)">
+            <summary>
+            Update specified episode for specified character.
+            </summary>
+            <param name="characterId"></param>
+            <param name="episode"></param>
+        </member>
+        <member name="M:StarWars.Api.Services.IStarWarsRepository.Save">
+            <summary>
+            Save database. Returns false on fail.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:StarWars.Api.Services.StarWarsRepository">
+            <summary>
+            StarWars.Api repository
+            </summary>
+        </member>
+        <member name="M:StarWars.Api.Services.StarWarsRepository.#ctor(StarWars.Api.Entities.StarWarsContext,StarWars.API.Services.IPropertyMappingService)">
+            <summary>
+            Manipulation of database context.
+            </summary>
+            <param name="context"></param>
+            <param name="propertyMappingService"></param>
+        </member>
+        <member name="M:StarWars.Api.Services.StarWarsRepository.AddCharacter(StarWars.Api.Entities.Character)">
+            <summary>
+            Add new character to repository.
+            </summary>
+            <param name="character"></param>
+        </member>
+        <member name="M:StarWars.Api.Services.StarWarsRepository.CharacterExists(System.Guid)">
+            <summary>
+            Check if character exists.
+            </summary>
+            <param name="characterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Services.StarWarsRepository.DeleteCharacter(StarWars.Api.Entities.Character)">
+            <summary>
+            Delete character from repository.
+            </summary>
+            <param name="character"></param>
+        </member>
+        <member name="M:StarWars.Api.Services.StarWarsRepository.GetCharacter(System.Guid)">
+            <summary>
+            Get single character from repository that matches specified id.
+            </summary>
+            <param name="characterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Services.StarWarsRepository.GetCharacters(System.Collections.Generic.IEnumerable{System.Guid})">
+            <summary>
+            Get characters that match specified ids.
+            </summary>
+            <param name="characterIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Services.StarWarsRepository.GetCharacters(StarWars.Api.Helpers.Pagination.CharacterResourceParameters)">
+            <summary>
+            Get characters PagedList from repository.
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Services.StarWarsRepository.Save">
+            <summary>
+            Save database. Returns false on fail.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Services.StarWarsRepository.UpdateCharacter(StarWars.Api.Entities.Character)">
+            <summary>
+            Update character in repository. No implementation needed.
+            </summary>
+            <param name="character"></param>
+        </member>
+        <member name="M:StarWars.Api.Services.StarWarsRepository.AddEpisodeForCharacter(System.Guid,StarWars.Api.Entities.Episode)">
+            <summary>
+            Add episode for character.
+            </summary>
+            <param name="characterId"></param>
+            <param name="episode"></param>
+        </member>
+        <member name="M:StarWars.Api.Services.StarWarsRepository.GetEpisodesForCharacter(System.Guid)">
+            <summary>
+            Get all episodes for specified character.
+            </summary>
+            <param name="characterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Services.StarWarsRepository.GetEpisodeForCharacter(System.Guid,System.Guid)">
+            <summary>
+            Get specified episode for specified character.
+            </summary>
+            <param name="characterId"></param>
+            <param name="episodeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.Api.Services.StarWarsRepository.DeleteEpisode(StarWars.Api.Entities.Episode)">
+            <summary>
+            Delete specified episode.
+            </summary>
+            <param name="episode"></param>
+        </member>
+        <member name="M:StarWars.Api.Services.StarWarsRepository.UpdateEpisodeForCharacter(System.Guid,StarWars.Api.Entities.Episode)">
+            <summary>
+            Update specified episode for specified character. No implmentation needed.
+            </summary>
+            <param name="characterId"></param>
+            <param name="episode"></param>
+        </member>
+        <member name="T:StarWars.API.Helpers.PagedList`1">
+            <summary>
+            Custom List for paging manipulation.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:StarWars.API.Helpers.PagedList`1.Create(System.Linq.IQueryable{`0},System.Int32,System.Int32)">
+            <summary>
+            Create specified page from IQueryable source.
+            </summary>
+            <param name="source"></param>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="P:StarWars.API.Helpers.PagedList`1.CurrentPage">
+            <summary>
+            Current page from source.
+            </summary>
+        </member>
+        <member name="P:StarWars.API.Helpers.PagedList`1.TotalPages">
+            <summary>
+            Total pages in source.
+            </summary>
+        </member>
+        <member name="P:StarWars.API.Helpers.PagedList`1.PageSize">
+            <summary>
+            Number of records to display on single source.
+            </summary>
+        </member>
+        <member name="P:StarWars.API.Helpers.PagedList`1.TotalCount">
+            <summary>
+            Total count of pages in PagedList
+            </summary>
+        </member>
+        <member name="P:StarWars.API.Helpers.PagedList`1.HasPrevious">
+            <summary>
+            Has previous page.
+            </summary>
+        </member>
+        <member name="P:StarWars.API.Helpers.PagedList`1.HasNext">
+            <summary>
+            Has next page.
+            </summary>
+        </member>
+        <member name="T:StarWars.API.Services.IPropertyMapping">
+            <summary>
+            Interface for service injection.
+            </summary>
+        </member>
+        <member name="T:StarWars.API.Services.IPropertyMappingService">
+            <summary>
+            Interface for service injection
+            </summary>
+        </member>
+        <member name="M:StarWars.API.Services.IPropertyMappingService.ValidMappingExistsFor``2(System.String)">
+            <summary>
+            Checks if Mapping can be created for specified source and destination.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TDestination"></typeparam>
+            <param name="fields"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarWars.API.Services.IPropertyMappingService.GetPropertyMapping``2">
+            <summary>
+            Should only be called after checking if ValidMappingExistsFor
+            Gets property mapping for specified source and destination.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TDestination"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:StarWars.API.Services.PropertyMapping`2">
+            <summary>
+            Class for manipulation of PropertyMappings.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TDestination"></typeparam>
+        </member>
+        <member name="P:StarWars.API.Services.PropertyMapping`2.MappingDictionary">
+            <summary>
+            Mapping dictionary.
+            </summary>
+        </member>
+        <member name="M:StarWars.API.Services.PropertyMapping`2.#ctor(System.Collections.Generic.Dictionary{System.String,StarWars.API.Services.PropertyMappingValue})">
+            <summary>
+            Public constructor.
+            </summary>
+            <param name="mappingDictionary"></param>
+        </member>
+        <member name="T:StarWars.API.Services.PropertyMappingValue">
+            <summary>
+            Base class for PropertyMapping manipulation.
+            </summary>
+        </member>
+        <member name="P:StarWars.API.Services.PropertyMappingValue.DestinationProperties">
+            <summary>
+            Properties for destination
+            </summary>
+        </member>
+        <member name="P:StarWars.API.Services.PropertyMappingValue.Revert">
+            <summary>
+            Checks in collection order needs to be reverted before returning.
+            </summary>
+        </member>
+        <member name="M:StarWars.API.Services.PropertyMappingValue.#ctor(System.Collections.Generic.IEnumerable{System.String},System.Boolean)">
+            <summary>
+            Base constructor.
+            </summary>
+            <param name="destinationProperties"></param>
+            <param name="revert"></param>
+        </member>
+        <member name="T:StarWars.API.Services.ITypeHelperService">
+            <summary>
+            Interface for service injection.
+            </summary>
+        </member>
+        <member name="M:StarWars.API.Services.ITypeHelperService.TypeHasProperties``1(System.String)">
+            <summary>
+            Checks if string fields cand be parsed to Model Properties.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="fields"></param>
+            <returns></returns>
+        </member>
+        <member name="T:StarWars.API.Services.TypeHelperService">
+            <summary>
+            Helper methods for TypeService
+            </summary>
+        </member>
+        <member name="M:StarWars.API.Services.TypeHelperService.TypeHasProperties``1(System.String)">
+            <summary>
+            Check if 'fields' can be parsed to types in model.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="fields"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Library.API.Helpers.ArrayModelBinder">
+            <summary>
+            Helper class for binding Arrays
+            </summary>
+        </member>
+        <member name="M:Library.API.Helpers.ArrayModelBinder.BindModelAsync(Microsoft.AspNetCore.Mvc.ModelBinding.ModelBindingContext)">
+            <summary>
+            Binds enumerables to ArrayModel
+            </summary>
+            <param name="bindingContext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Library.API.Helpers.IEnumerableExtensions">
+            <summary>
+            Helpers for IEnumerable extension.
+            </summary>
+        </member>
+        <member name="M:Library.API.Helpers.IEnumerableExtensions.ShapeData``1(System.Collections.Generic.IEnumerable{``0},System.String)">
+            <summary>
+            Shape data representation by string specified 'fields'.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="fields"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Library.API.Helpers.IQueryableExtensions">
+            <summary>
+            Helpers for Query manipulation.
+            </summary>
+        </member>
+        <member name="M:Library.API.Helpers.IQueryableExtensions.ApplySort``1(System.Linq.IQueryable{``0},System.String,System.Collections.Generic.Dictionary{System.String,StarWars.API.Services.PropertyMappingValue})">
+            <summary>
+            Shape data representation by string specified 'fields'.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="source"></param>
+            <param name="orderBy"></param>
+            <param name="mappingDictionary"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Library.API.Helpers.IQueryableExtensions.ShapeData``1(System.Linq.IQueryable{``0},System.String,System.Collections.Generic.Dictionary{System.String,StarWars.API.Services.PropertyMappingValue})">
+            <summary>
+            Shape by specified string 'fields' using mapping dictionary.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="fields"></param>
+            <param name="mappingDictionary"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Library.API.Helpers.ObjectExtensions">
+            <summary>
+            Helpers for object manipulation.
+            </summary>
+        </member>
+        <member name="M:Library.API.Helpers.ObjectExtensions.ShapeData``1(``0,System.String)">
+            <summary>
+            Shape data representation by string specified 'fields'.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="fields"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

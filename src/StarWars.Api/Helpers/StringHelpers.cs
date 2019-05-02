@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace StarWars.Api.Helpers
 {
-    public static class StringHelpers
+    internal static class StringHelpers
     {
-        public static string TrimToLowerInvariant(string source) =>
+        internal static string TrimToLowerInvariant(string source) =>
             source.Trim().ToLowerInvariant();
     }
 }

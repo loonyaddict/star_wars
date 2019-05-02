@@ -15,10 +15,15 @@ using StarWars.Api.Models;
 using StarWars.Api.Services;
 using StarWars.API.Services;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace testWebNet
 {
+#pragma warning disable CS1591 // Brak komentarza XML dla widocznego publicznie typu lub składowej
     public class Startup
+
     {
         public Startup(IConfiguration configuration)
         {
@@ -74,6 +79,11 @@ namespace testWebNet
                         Email = "k.soporek@gmail.com",
                     }
                 });
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+                c.DescribeAllEnumsAsStrings();
             });
         }
 
@@ -139,3 +149,4 @@ namespace testWebNet
         }
     }
 }
+#pragma warning restore CS1591 // Brak komentarza XML dla widocznego publicznie typu lub składowej

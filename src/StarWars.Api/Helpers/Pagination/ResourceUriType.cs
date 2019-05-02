@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace StarWars.Api.Helpers.Pagination
 {
-    public enum ResourceUriType
+    internal enum ResourceUriType
     {
         PreviousPage,
         NextPage

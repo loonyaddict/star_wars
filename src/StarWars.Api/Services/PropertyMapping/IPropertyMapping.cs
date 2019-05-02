@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace StarWars.API.Services
 {
+    /// <summary>
+    /// Interface for service injection.
+    /// </summary>
     public interface IPropertyMapping
     {
     }

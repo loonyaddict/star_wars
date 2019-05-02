@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace StarWars.API.Services
 {
+    /// <summary>
+    /// Helper methods for TypeService
+    /// </summary>
     public class TypeHelperService : ITypeHelperService
     {
+        /// <summary>
+        /// Check if 'fields' can be parsed to types in model.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="fields"></param>
+        /// <returns></returns>
         public bool TypeHasProperties<T>(string fields)
         {
             if (string.IsNullOrWhiteSpace(fields))

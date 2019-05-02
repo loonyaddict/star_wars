@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace StarWars.Api.Models
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CharacterForUpdateDto : CharacterModelDto, ICharacter
     {
     }

@@ -7,8 +7,18 @@ using System.Threading.Tasks;
 
 namespace Library.API.Helpers
 {
+    /// <summary>
+    /// Helpers for IEnumerable extension.
+    /// </summary>
     public static class IEnumerableExtensions
     {
+        /// <summary>
+        /// Shape data representation by string specified 'fields'.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
         public static IEnumerable<ExpandoObject> ShapeData<TSource>(
             this IEnumerable<TSource> source,
             string fields)

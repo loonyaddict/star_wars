@@ -1,0 +1,982 @@
+{
+	"info": {
+		"_postman_id": "7ce69377-8103-4898-96b7-e8cfe29c5d10",
+		"name": "StarWarsApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET /api/characters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/characters fields=name,id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters?field=name",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters"
+					],
+					"query": [
+						{
+							"key": "field",
+							"value": "name"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/characters orderBy=planet desc",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/characters page3, size 5",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters?pageNumber=5&pageSize=5",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "5"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/characters SearchQuery AnyOf",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters?searchQuery=da",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters"
+					],
+					"query": [
+						{
+							"key": "searchQuery",
+							"value": "da"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/characters planet=Takodana",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters?planet=Takodana",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters"
+					],
+					"query": [
+						{
+							"key": "planet",
+							"value": "Takodana"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/characters planet=Takodana searchQuery=e",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters?planet=Takodana",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters"
+					],
+					"query": [
+						{
+							"key": "planet",
+							"value": "Takodana"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/character/characterId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/ea024f46-5dd8-44d6-9444-110bcb26691f",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"ea024f46-5dd8-44d6-9444-110bcb26691f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/character/characterId/episodes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/ea024f46-5dd8-44d6-9444-110bcb26691f/episodes/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"ea024f46-5dd8-44d6-9444-110bcb26691f",
+						"episodes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/character/characterId/episodes EpisodeId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/ea024f46-5dd8-44d6-9444-110bcb26691f/episodes/ebbd1f7d-269b-4312-973a-ecbe2eebc223",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"ea024f46-5dd8-44d6-9444-110bcb26691f",
+						"episodes",
+						"ebbd1f7d-269b-4312-973a-ecbe2eebc223"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/characters",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"Wookie\",\r\n    \"planet\": \"Furry land\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post /api/charactercollections",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\r\n\t\"name\": \"Wookie\",\r\n    \"planet\": \"Furry land\",\r\n    \"episodes\" : \r\n},\r\n{\r\n\t\"name\": \"Jabba\",\r\n    \"planet\": \"Desert\"\r\n}]"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/charactercollections",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"charactercollections"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post /api/charactercollections withWrongCharacter",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\r\n\t\"name\": \"Wookie\",\r\n    \"planet\": \"FurryLand\"\r\n},\r\n{\r\n\t\"name\": \"Jabba\",\r\n    \"planet\": \"Jabba\"\r\n}]"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/charactercollections",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"charactercollections"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/characters tooLongName",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"WookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookieWookie\",\r\n    \"planet\": \"Furry land\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/characters sameNameAndPlanet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"Wookie\",\r\n    \"planet\": \"Wookie\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/characters/episode",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "application/json",
+						"disabled": true
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"DeathMenace\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/6baf0e97-96a3-4d56-8896-d12769005f7f/episodes",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"6baf0e97-96a3-4d56-8896-d12769005f7f",
+						"episodes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/characters/characterId",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/b6ee8a38-ae3b-4a1c-b1de-484844bb3bf0",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"b6ee8a38-ae3b-4a1c-b1de-484844bb3bf0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/characters/characterId/episodes/episodeId",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/ea024f46-5dd8-44d6-9444-110bcb26691f/episodes/ebbd1f7d-269b-4312-973a-ecbe2eebc223",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"ea024f46-5dd8-44d6-9444-110bcb26691f",
+						"episodes",
+						"ebbd1f7d-269b-4312-973a-ecbe2eebc223"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /characters/characterId/",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"Updated Name\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/1b4d8cda-2da3-403c-a4c0-c835b5861d29",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"1b4d8cda-2da3-403c-a4c0-c835b5861d29"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /characters/characterId/ WithUpsert",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"New upserted character\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/acd68dec-e59b-4507-b166-16591169292a",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"acd68dec-e59b-4507-b166-16591169292a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /characters/characterId/episodes/episodeId",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"Put name\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/43479314-d524-482c-8895-d05e4b207057/episodes/dbd21e7d-d44b-42ec-900a-8916cbe34cb0",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"43479314-d524-482c-8895-d05e4b207057",
+						"episodes",
+						"dbd21e7d-d44b-42ec-900a-8916cbe34cb0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /characters/characterId/episodes/episodeId withUpsert",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"Upserted Episode\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/43479314-d524-482c-8895-d05e4b207057/episodes/f90b3078-8b37-40b1-bd3c-e9bc9acbabf9",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"43479314-d524-482c-8895-d05e4b207057",
+						"episodes",
+						"f90b3078-8b37-40b1-bd3c-e9bc9acbabf9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /characters/characterId/ replaceName",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/name\",\n      \"value\": \"Replaced Name\"\n    }\n]"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/3fec732e-83bf-4018-8879-272c2e34a883",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"3fec732e-83bf-4018-8879-272c2e34a883"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /characters/characterId/ unexistingField",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/unexisting_field\",\n      \"value\": \"Han Solo\"\n    }\n]"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/43479314-d524-482c-8895-d05e4b207057",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"43479314-d524-482c-8895-d05e4b207057"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /characters/characterId/ withUpsert",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/name\",\n      \"value\": \"Patch upserted character\"\n    }\n]"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/3810eba8-b61b-4b6b-8359-8b5480421041",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"3810eba8-b61b-4b6b-8359-8b5480421041"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /characters/characterId/episodes/episodeId",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/name\",\n      \"value\": \"PatchedName\"\n    }\n]"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/b5fec159-4240-4d9a-8629-4f6679128f8b/episodes/013225fa-9cd2-40ac-b439-6f62b961b43e",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"b5fec159-4240-4d9a-8629-4f6679128f8b",
+						"episodes",
+						"013225fa-9cd2-40ac-b439-6f62b961b43e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /characters/characterId/episodes/episodeId withUpsert",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/name\",\n      \"value\": \"Upserted PatchedName\"\n    }\n]"
+				},
+				"url": {
+					"raw": "https://localhost:44376/api/characters/65db6082-f254-43f3-bd9f-b2e58bc97b37/episodes/82d64340-ed52-4bcb-937e-47f331658b01",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44376",
+					"path": [
+						"api",
+						"characters",
+						"65db6082-f254-43f3-bd9f-b2e58bc97b37",
+						"episodes",
+						"82d64340-ed52-4bcb-937e-47f331658b01"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
