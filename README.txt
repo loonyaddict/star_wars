@@ -1,2 +1,2 @@
 # star_wars
-Badckend only REST api demo. Can be used with swagger and/or Postman.
+Badckend only REST api demo. Can be tested with swagger and/or Postman.
